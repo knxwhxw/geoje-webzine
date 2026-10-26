@@ -2,17 +2,23 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>거제 시정소식지 함께거제</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Noto Sans KR & Noto Serif KR -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        html, body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
             font-family: 'Noto Sans KR', sans-serif;
-            min-height: 100vh;
-            min-height: 100dvh;
+            background-color: #0f172a;
         }
         .font-noto-sans {
             font-family: 'Noto Sans KR', sans-serif !important;
@@ -20,11 +26,9 @@
         .font-noto-serif {
             font-family: 'Noto Serif KR', serif !important;
         }
-        html {
-            scroll-behavior: smooth;
-        }
+        /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
         .custom-scroll::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -33,50 +37,46 @@
             background: #cbd5e1;
             border-radius: 3px;
         }
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
         .card-hover-effect {
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .card-hover-effect:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        .card-hover-effect:active {
+            transform: scale(0.98);
         }
         .lh-tight { line-height: 1.4 !important; }
         .lh-normal { line-height: 1.75 !important; }
         .lh-relaxed { line-height: 2.1 !important; }
         
-        /* 모바일 Dynamic Viewport Height 지원 */
-        .app-height {
-            height: 100vh;
+        /* Dynamic Height Container for Mobile Safe Area */
+        .app-container {
+            height: 100%;
             height: 100dvh;
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-800 app-height w-screen overflow-hidden flex items-center justify-center select-none">
+<body class="text-slate-800 flex items-center justify-center">
 
     <!-- App Container -->
-    <div id="app" class="relative w-full max-w-5xl app-height bg-slate-50 md:h-[95vh] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-800">
+    <div id="app" class="relative w-full max-w-5xl app-container bg-slate-50 md:h-[95vh] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
 
         <!-- Top Navigation Header -->
-        <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative">
+        <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative">
             
             <!-- Left: Aa 버튼 -->
             <div class="flex items-center">
-                <button id="btn-open-settings" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer border border-slate-300">
+                <button id="btn-open-settings" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-100 active:bg-slate-200 text-slate-700 transition cursor-pointer border border-slate-300">
                     <span class="font-extrabold text-sm tracking-tight text-emerald-600">Aa</span>
                 </button>
             </div>
 
             <!-- Center: 함께거제 (클릭 시 메인화면 이동) -->
-            <div onclick="showHubView()" class="absolute left-1/2 -translate-x-1/2 font-black text-slate-900 text-base sm:text-lg tracking-tight select-none cursor-pointer hover:text-emerald-700 transition">
+            <div onclick="showHubView()" class="absolute left-1/2 -translate-x-1/2 font-black text-slate-900 text-base sm:text-lg tracking-tight cursor-pointer hover:text-emerald-700 active:opacity-70 transition p-2">
                 <span>함께거제</span>
             </div>
 
             <!-- Right: 전체 목차 Toggle -->
             <div class="flex items-center">
-                <button id="btn-open-toc" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer">
+                <button id="btn-open-toc" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 active:bg-slate-200 text-slate-700 transition cursor-pointer">
                     <span class="hidden sm:inline font-bold">전체 목차</span>
                     <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
@@ -93,9 +93,6 @@
                 
                 <!-- Hero Banner / Cover Section -->
                 <div class="relative w-full rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-700 to-slate-900 text-white p-6 sm:p-10 shadow-lg overflow-hidden group">
-                    <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-10 translate-y-10">
-                        <svg class="w-96 h-96 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    </div>
                     <div class="relative z-10 space-y-3 max-w-2xl">
                         <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/30 backdrop-blur-md text-emerald-200 text-xs font-bold rounded-full border border-emerald-400/30">
                             <span>VOL. 142</span>
@@ -121,7 +118,7 @@
                 </div>
 
                 <!-- Grid Thumbnails -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-16">
 
                     <!-- Card 0: Cover Story -->
                     <div onclick="openArticle(0)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
@@ -194,323 +191,4 @@
                                     바다 향 가득한 거제 가을 여행 코스
                                 </h3>
                                 <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
-                                    바람의 언덕부터 거제 섬꽃축제, 오션뷰 가을 드라이브 해안도로 가이드.
-                                </p>
-                            </div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
-                                <span>기사 읽기</span>
-                                <span class="group-hover:translate-x-1 transition">▶</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Life -->
-                    <div onclick="openArticle(3)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
-                        <div class="relative h-44 bg-gradient-to-r from-indigo-700 to-purple-800 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-indigo-950/70 text-indigo-200 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
-                                03 LIFE
-                            </span>
-                            <div class="text-center p-4">
-                                <span class="text-3xl block mb-1">💡</span>
-                                <span class="text-white font-extrabold text-base group-hover:scale-105 transition transform inline-block">시민 맞춤 생활 정책</span>
-                            </div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition line-clamp-1">
-                                    알아두면 유용한 10월 거제 지원 혜택
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
-                                    소상공인 융자 지원, 청년 구직활동 자격증 수강료 실비 지원 제도 총정리.
-                                </p>
-                            </div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
-                                <span>기사 읽기</span>
-                                <span class="group-hover:translate-x-1 transition">▶</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Culture Calendar -->
-                    <div onclick="openArticle(4)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
-                        <div class="relative h-44 bg-gradient-to-r from-rose-600 to-pink-700 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-rose-950/70 text-rose-200 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
-                                04 CULTURE
-                            </span>
-                            <div class="text-center p-4">
-                                <span class="text-3xl block mb-1">📅</span>
-                                <span class="text-white font-extrabold text-base group-hover:scale-105 transition transform inline-block">10월 문화 행사 일정</span>
-                            </div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition line-clamp-1">
-                                    거제 풍성한 축제 & 전시 한눈에 보기
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
-                                    가을 음악회, 섬꽃축제, 야외 미술전 등 10월 한 달간 펼쳐지는 다채로운 문화 소식.
-                                </p>
-                            </div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
-                                <span>기사 읽기</span>
-                                <span class="group-hover:translate-x-1 transition">▶</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 5: Reader Feedback -->
-                    <div onclick="openArticle(5)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
-                        <div class="relative h-44 bg-gradient-to-r from-teal-600 to-emerald-700 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-teal-950/70 text-teal-200 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
-                                05 READER
-                            </span>
-                            <div class="text-center p-4">
-                                <span class="text-3xl block mb-1">💬</span>
-                                <span class="text-white font-extrabold text-base group-hover:scale-105 transition transform inline-block">독자 목소리 & 소통</span>
-                            </div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition line-clamp-1">
-                                    시민이 만들어가는 함께거제
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
-                                    소식지를 사랑하는 시민 독자들의 소중한 후기와 피드백 소통 창구.
-                                </p>
-                            </div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
-                                <span>기사 읽기</span>
-                                <span class="group-hover:translate-x-1 transition">▶</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 6: Hidden Picture Game -->
-                    <div onclick="openArticle(6)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-amber-300 shadow-sm cursor-pointer flex flex-col group sm:col-span-2 lg:col-span-1">
-                        <div class="relative h-44 bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-amber-950/70 text-amber-200 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
-                                06 EVENT
-                            </span>
-                            <div class="text-center p-4">
-                                <span class="text-3xl block mb-1">🧩</span>
-                                <span class="text-white font-extrabold text-base group-hover:scale-105 transition transform inline-block">숨은그림찾기 퀴즈 이벤트</span>
-                            </div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition line-clamp-1">
-                                    몽돌이와 함께하는 퀴즈 응모
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
-                                    그림 속 숨겨진 거제 특산물을 찾고 모바일 상품권 이벤트에 당첨되어 보세요!
-                                </p>
-                            </div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-600">
-                                <span>이벤트 참가하기</span>
-                                <span class="group-hover:translate-x-1 transition">▶</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ======================================================== -->
-            <!-- 2. ARTICLE READER DRAWER VIEW (Detailed Page Mode)      -->
-            <!-- ======================================================== -->
-            <div id="article-view" class="hidden absolute inset-0 bg-white z-20 flex flex-col h-full">
-                
-                <!-- Article Header Navigation -->
-                <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0 z-10">
-                    <button onclick="showHubView()" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 hover:text-emerald-600 transition cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        <span>목차로 돌아가기</span>
-                    </button>
-                    <span id="article-category-badge" class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[11px] font-extrabold">
-                        CATEGORY
-                    </span>
-                </div>
-
-                <!-- Scrollable Article Content Box -->
-                <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll p-6 sm:p-12 max-w-3xl mx-auto w-full">
-                    <div id="article-body-container" class="space-y-6 font-noto-sans text-base lh-normal pb-10">
-                        <!-- Dynamic Content Injected via JS -->
-                    </div>
-                </div>
-
-                <!-- Bottom Fixed Navigation Bar (하단 고정 메뉴) -->
-                <div class="h-14 bg-slate-50/95 backdrop-blur border-t border-slate-200 px-4 sm:px-8 flex items-center justify-between flex-shrink-0 text-xs sm:text-sm z-10 shadow-lg">
-                    <button id="prev-art-btn" onclick="navArticle(-1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer py-2 px-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                        <span class="hidden sm:inline">이전 코너</span>
-                    </button>
-
-                    <span id="article-progress-txt" class="font-extrabold text-slate-500 text-xs select-none">
-                        1 / 7
-                    </span>
-
-                    <button id="next-art-btn" onclick="navArticle(1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer py-2 px-1">
-                        <span class="hidden sm:inline">다음 코너</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-
-            </div>
-
-        </main>
-
-        <!-- Table of Contents Modal -->
-        <div id="toc-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden border border-slate-200">
-                <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-                    <h3 class="font-extrabold text-slate-800 text-base">전체 목차 메뉴</h3>
-                    <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>
-                <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll">
-                    <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 transition flex justify-between items-center group bg-slate-50 mb-2 cursor-pointer">
-                        <span class="font-bold text-emerald-700">🏠 메인 목차 홈으로</span>
-                    </button>
-                    <button onclick="openArticle(0); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">00. COVER STORY: 거제 시정 메세지</span>
-                    </button>
-                    <button onclick="openArticle(1); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">01. INTERVIEW: 금속공예 이숙 작가</span>
-                    </button>
-                    <button onclick="openArticle(2); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">02. TOURISM: 섬꽃축제 & 가을 드라이브</span>
-                    </button>
-                    <button onclick="openArticle(3); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">03. LIFE: 소상공인 & 청년 지원 정책</span>
-                    </button>
-                    <button onclick="openArticle(4); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">04. CULTURE: 10월 거제 문화 행사</span>
-                    </button>
-                    <button onclick="openArticle(5); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">05. READER: 독자 피드백 & 소통</span>
-                    </button>
-                    <button onclick="openArticle(6); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
-                        <span class="font-bold text-amber-600 group-hover:text-amber-700">06. EVENT: 숨은그림찾기 퀴즈</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 독서환경설정 모달 창 -->
-        <div id="settings-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 space-y-5 border border-slate-200">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
-                        <span class="text-emerald-600 font-extrabold">Aa</span> 독서환경설정
-                    </h3>
-                    <button onclick="toggleSettingsModal(false)" class="text-slate-400 hover:text-slate-600 font-bold p-1 cursor-pointer">✕</button>
-                </div>
-
-                <!-- 글꼴 선택 -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">글꼴</label>
-                    <div class="grid grid-cols-2 gap-2 text-xs">
-                        <button onclick="setReaderFont('font-noto-sans')" id="font-btn-sans" class="p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-center cursor-pointer">고딕</button>
-                        <button onclick="setReaderFont('font-noto-serif')" id="font-btn-serif" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-noto-serif text-center cursor-pointer">명조</button>
-                    </div>
-                </div>
-
-                <!-- 크기 선택 -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">크기</label>
-                    <div class="grid grid-cols-4 gap-1.5 text-xs">
-                        <button onclick="setReaderSize('text-sm')" id="size-btn-sm" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">작게</button>
-                        <button onclick="setReaderSize('text-base')" id="size-btn-base" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
-                        <button onclick="setReaderSize('text-lg')" id="size-btn-lg" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">크게</button>
-                        <button onclick="setReaderSize('text-xl')" id="size-btn-xl" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">매우크게</button>
-                    </div>
-                </div>
-
-                <!-- 글간격 선택 -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">글간격</label>
-                    <div class="grid grid-cols-3 gap-2 text-xs">
-                        <button onclick="setReaderLH('lh-tight')" id="lh-btn-tight" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">좁게</button>
-                        <button onclick="setReaderLH('lh-normal')" id="lh-btn-normal" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
-                        <button onclick="setReaderLH('lh-relaxed')" id="lh-btn-relaxed" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">넓게</button>
-                    </div>
-                </div>
-
-                <button onclick="toggleSettingsModal(false)" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition shadow-md cursor-pointer">
-                    확인
-                </button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Script Section -->
-    <script>
-        const articles = [
-            {
-                category: "COVER STORY",
-                title: "가을 바다로 떠나는 휴식 여행",
-                subtitle: "푸른 바다와 가을빛이 머무는 10월의 함께거제",
-                headerGradient: "from-emerald-700 to-teal-900",
-                icon: "🌊",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed">
-                        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-xl font-medium text-emerald-900">
-                            "시민 여러분, 안녕하십니까! 기분 좋은 선선한 가을바람이 넘쳐나는 10월입니다."
-                        </div>
-                        <p>
-                            푸른 남해 바다가 한층 더 깊어지는 10월, 거제는 섬 전체가 가을빛으로 물들고 있습니다. 거제 시정소식지 <b>&lt;함께거제&gt;</b> 이번 호에서는 가을의 정취를 만끽할 수 있는 다채로운 문화 축제 소식과 소상공인 및 청년들을 위한 알찬 지원 정책을 함께 담았습니다.
-                        </p>
-                        <div class="w-full h-56 bg-gradient-to-br from-emerald-100 to-teal-200 rounded-xl flex flex-col items-center justify-center p-6 text-center border border-emerald-200">
-                            <span class="text-4xl mb-2">🍁</span>
-                            <h4 class="font-bold text-emerald-900 text-lg">2026년 10월 거제시 주요 시정 목표</h4>
-                            <p class="text-xs text-emerald-700 mt-1">시민이 행복한 문화도시 • 지속가능한 침체 극복 경제 선도</p>
-                        </div>
-                        <p>
-                            시민 여러분의 가정에 늘 행복과 평안이 가득하시길 기원하며, 소식지 속 다양한 거제의 이야기와 함께 따뜻한 가을날을 만끽하시길 진심으로 바랍니다.
-                        </p>
-                    </div>
-                `
-            },
-            {
-                category: "01 INTERVIEW",
-                title: "낮과 밤, 금속과 빛의 반전 예술",
-                subtitle: "거제 출신 금속 공예 장인 이숙 작가가 전하는 빛 이야기",
-                headerGradient: "from-slate-800 to-zinc-900",
-                icon: "✨",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed">
-                        <div class="w-full h-60 bg-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-500 shadow-inner">
-                            <span class="text-4xl mb-2">⚒️</span>
-                            <span class="font-bold text-slate-800">[ 이숙 작가 작업실 및 대표 금속 조형물 ]</span>
-                            <span class="text-xs text-slate-400 mt-1">투과하는 빛에 따라 형태가 변하는 반전 미학 작품</span>
-                        </div>
-                        <p>
-                            차갑고 단단하게 느껴지는 차가운 금속 소재에 섬세한 펀칭 기법으로 온기와 빛을 불어넣는 금속 공예가 이숙 작가. 그녀의 작업실은 조명이 켜지는 순간 또 다른 우주로 변신합니다.
-                        </p>
-                        <h3 class="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">Q. 금속이라는 차가운 소재에 빛을 결합하시게 된 계기는?</h3>
-                        <p>
-                            "거제의 낮과 밤 바다는 전혀 다른 얼굴을 가지고 있습니다. 낮에는 일렁이는 햇살을 품고, 밤에는 달빛과 어선의 불빛을 비추죠. 제 금속 작품도 낮에는 묵묵한 조형물로, 조명이 켜진 밤에는 빛을 뿜어내는 입체 예술로 반전 매력을 선사하고 싶었습니다."
-                        </p>
-                        <div class="p-4 bg-slate-100 rounded-xl border border-slate-200">
-                            <h4 class="font-bold text-slate-900 text-sm mb-1">💡 이숙 작가의 한마디</h4>
-                            <p class="text-xs text-slate-600">
-                                "거제 시민분들도 일상 속 지친 마음을 예술 작품과 빛이 선사하는 포근함으로 달래보셨으면 좋겠습니다."
-                            </p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                category: "02 TOURISM",
-                title: "거제 섬꽃축제 & 가을 바다 드라이브 코스",
-                subtitle: "국화 향기와 드넓은 오션뷰를 함께 즐기는 10월 여행",
-                headerGradient: "from-blue-600 to-cyan-800",
-                icon: "🌺",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed">
-                        <div class="space-y-4">
-                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded">추천 명소 1</span>
-                                <h3 class="font-bold text-slate-900 text-lg">제18
+                                    바람의
