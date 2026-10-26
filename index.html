@@ -54,20 +54,20 @@
         <!-- Top Navigation Header -->
         <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative">
             
-            <!-- Left: Aa (독서환경설정 버튼) -->
-            <div class="flex items-center w-24">
-                <button id="btn-open-settings" class="flex items-center justify-center px-2.5 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer border border-slate-300">
-                    <span class="font-extrabold text-sm tracking-tight">Aa</span>
+            <!-- Left: Aa 버튼만 남김 -->
+            <div class="flex items-center">
+                <button id="btn-open-settings" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer border border-slate-300">
+                    <span class="font-extrabold text-sm tracking-tight text-emerald-600">Aa</span>
                 </button>
             </div>
 
-            <!-- Center: 함께거제 (정중앙 배치) -->
+            <!-- Center: 함께거제 정중앙 배치 -->
             <div class="absolute left-1/2 -translate-x-1/2 font-black text-slate-900 text-base sm:text-lg tracking-tight select-none">
                 <span>함께거제</span>
             </div>
 
             <!-- Right: 전체 목차 Toggle -->
-            <div class="flex items-center justify-end w-24">
+            <div class="flex items-center">
                 <button id="btn-open-toc" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer">
                     <span class="hidden sm:inline font-bold">전체 목차</span>
                     <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -280,17 +280,4 @@
                     <!-- Card 6: Hidden Picture Game -->
                     <div onclick="openArticle(6)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-amber-300 shadow-sm cursor-pointer flex flex-col group sm:col-span-2 lg:col-span-1">
                         <div class="relative h-44 bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-amber-950/70 text-amber-200 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">
-                                06 EVENT
-                            </span>
-                            <div class="text-center p-4">
-                                <span class="text-3xl block mb-1">🧩</span>
-                                <span class="text-white font-extrabold text-base group-hover:scale-105 transition transform inline-block">숨은그림찾기 퀴즈 이벤트</span>
-                            </div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition line-clamp-1">
-                                    몽돌이와 함께하는 퀴즈 응모
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed
+                            <span class="absolute top-3 left-3 bg-amber-950/70 text
