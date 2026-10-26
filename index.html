@@ -58,18 +58,18 @@
         <!-- Top Navigation Header -->
         <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm">
             <!-- Left: 독서환경설정 Button -->
-            <button onclick="toggleSettingsModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95">
+            <button onclick="toggleSettingsModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer">
                 <span class="font-bold text-xs border border-slate-400 rounded px-1 py-0.5">Aa</span>
                 <span class="font-bold text-slate-800">독서환경설정</span>
             </button>
 
-            <!-- Center Brand Header: 검은색 통일 & 2026.10 삭제 & 링크 없음 -->
+            <!-- Center Brand Header -->
             <div class="flex items-center gap-2 font-black text-slate-900 text-base sm:text-lg tracking-tight">
                 <span>함께거제</span>
             </div>
 
             <!-- Right: Table of Contents Drawer Modal Toggle -->
-            <button onclick="toggleTocModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95">
+            <button onclick="toggleTocModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95 cursor-pointer">
                 <span class="hidden sm:inline font-bold">전체 목차</span>
                 <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
@@ -314,7 +314,7 @@
                 
                 <!-- Article Header / Navigation Bar -->
                 <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
-                    <button onclick="showHubView()" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 hover:text-emerald-600 transition">
+                    <button onclick="showHubView()" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 hover:text-emerald-600 transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                         <span>목차로 돌아가기</span>
                     </button>
@@ -332,7 +332,7 @@
 
                 <!-- Bottom Next/Prev Article Navigation Bar -->
                 <div class="h-14 bg-slate-50 border-t border-slate-200 px-4 sm:px-8 flex items-center justify-between flex-shrink-0 text-xs sm:text-sm">
-                    <button id="prev-art-btn" onclick="navArticle(-1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700">
+                    <button id="prev-art-btn" onclick="navArticle(-1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         <span class="hidden sm:inline">이전 코너</span>
                     </button>
@@ -341,7 +341,7 @@
                         1 / 7
                     </span>
 
-                    <button id="next-art-btn" onclick="navArticle(1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700">
+                    <button id="next-art-btn" onclick="navArticle(1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer">
                         <span class="hidden sm:inline">다음 코너</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
@@ -352,77 +352,129 @@
         </main>
 
         <!-- Table of Contents Modal -->
-        <div id="toc-modal" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div id="toc-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden border border-slate-200">
                 <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
                     <h3 class="font-extrabold text-slate-800 text-base">전체 목차 메뉴</h3>
-                    <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-1">
+                    <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
                 <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll">
-                    <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 transition flex justify-between items-center group bg-slate-50 mb-2">
+                    <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 transition flex justify-between items-center group bg-slate-50 mb-2 cursor-pointer">
                         <span class="font-bold text-emerald-700">🏠 메인 목차 홈으로</span>
                     </button>
-                    <button onclick="openArticle(0); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(0); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-slate-800 group-hover:text-emerald-700">00. COVER STORY: 거제 시정 메세지</span>
                     </button>
-                    <button onclick="openArticle(1); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(1); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-slate-800 group-hover:text-emerald-700">01. INTERVIEW: 금속공예 이숙 작가</span>
                     </button>
-                    <button onclick="openArticle(2); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(2); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-slate-800 group-hover:text-emerald-700">02. TOURISM: 섬꽃축제 & 가을 드라이브</span>
                     </button>
-                    <button onclick="openArticle(3); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(3); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-slate-800 group-hover:text-emerald-700">03. LIFE: 소상공인 & 청년 지원 정책</span>
                     </button>
-                    <button onclick="openArticle(4); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(4); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-slate-800 group-hover:text-emerald-700">04. CULTURE: 10월 거제 문화 행사</span>
                     </button>
-                    <button onclick="openArticle(5); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(5); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-slate-800 group-hover:text-emerald-700">05. READER: 독자 피드백 & 소통</span>
                     </button>
-                    <button onclick="openArticle(6); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group">
+                    <button onclick="openArticle(6); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 transition flex justify-between items-center group cursor-pointer">
                         <span class="font-bold text-amber-600 group-hover:text-amber-700">06. EVENT: 숨은그림찾기 퀴즈</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- 독서환경설정 모달 창 (3, 4, 5, 6번 반영) -->
-        <div id="settings-modal" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <!-- 독서환경설정 모달 창 -->
+        <div id="settings-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 space-y-5 border border-slate-200">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
                         <span class="text-emerald-600 font-extrabold">Aa</span> 독서환경설정
                     </h3>
-                    <button onclick="toggleSettingsModal(false)" class="text-slate-400 hover:text-slate-600 font-bold p-1">✕</button>
+                    <button onclick="toggleSettingsModal(false)" class="text-slate-400 hover:text-slate-600 font-bold p-1 cursor-pointer">✕</button>
                 </div>
 
-                <!-- 4. 글꼴 선택 (노출: 고딕, 명조) -->
+                <!-- 글꼴 선택 -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">글꼴</label>
                     <div class="grid grid-cols-2 gap-2 text-xs">
-                        <button onclick="setReaderFont('font-noto-sans')" id="font-btn-sans" class="p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-center">고딕</button>
-                        <button onclick="setReaderFont('font-noto-serif')" id="font-btn-serif" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-noto-serif text-center">명조</button>
+                        <button onclick="setReaderFont('font-noto-sans')" id="font-btn-sans" class="p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-center cursor-pointer">고딕</button>
+                        <button onclick="setReaderFont('font-noto-serif')" id="font-btn-serif" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-noto-serif text-center cursor-pointer">명조</button>
                     </div>
                 </div>
 
-                <!-- 5. 크기 선택 (작게, 보통, 크게, 매우크게) -->
+                <!-- 크기 선택 -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">크기</label>
                     <div class="grid grid-cols-4 gap-1.5 text-xs">
-                        <button onclick="setReaderSize('text-sm')" id="size-btn-sm" class="p-2 rounded-lg border border-slate-200 text-slate-700">작게</button>
-                        <button onclick="setReaderSize('text-base')" id="size-btn-base" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold">보통</button>
-                        <button onclick="setReaderSize('text-lg')" id="size-btn-lg" class="p-2 rounded-lg border border-slate-200 text-slate-700">크게</button>
-                        <button onclick="setReaderSize('text-xl')" id="size-btn-xl" class="p-2 rounded-lg border border-slate-200 text-slate-700">매우크게</button>
+                        <button onclick="setReaderSize('text-sm')" id="size-btn-sm" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">작게</button>
+                        <button onclick="setReaderSize('text-base')" id="size-btn-base" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
+                        <button onclick="setReaderSize('text-lg')" id="size-btn-lg" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">크게</button>
+                        <button onclick="setReaderSize('text-xl')" id="size-btn-xl" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">매우크게</button>
                     </div>
                 </div>
 
-                <!-- 6. 글간격 선택 (좁게, 보통, 넓게) -->
+                <!-- 글간격 선택 -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">글간격</label>
                     <div class="grid grid-cols-3 gap-2 text-xs">
-                        <button onclick="setReaderLH('lh-tight')" id="lh-btn-tight" class="p-2 rounded-lg border border-slate-200 text-slate-700">좁게</button>
-                        <button onclick="setReaderLH('lh-normal')" id="lh-btn-normal" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold">보통</button>
-                        <button onclick="setReaderLH('lh-relaxed')" id="lh-btn-relaxed" class="p-2 rounded-lg border border-slate-200 text-slate-700">넓
+                        <button onclick="setReaderLH('lh-tight')" id="lh-btn-tight" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">좁게</button>
+                        <button onclick="setReaderLH('lh-normal')" id="lh-btn-normal" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
+                        <button onclick="setReaderLH('lh-relaxed')" id="lh-btn-relaxed" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">넓게</button>
+                    </div>
+                </div>
+
+                <button onclick="toggleSettingsModal(false)" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition shadow-md cursor-pointer">
+                    확인
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Article Data Structure & JavaScript Interactivity -->
+    <script>
+        // Full Article Data Array for all 8 Sections
+        const articles = [
+            {
+                category: "COVER STORY",
+                title: "가을 바다로 떠나는 휴식 여행",
+                subtitle: "푸른 바다와 가을빛이 머무는 10월의 함께거제",
+                headerGradient: "from-emerald-700 to-teal-900",
+                icon: "🌊",
+                content: `
+                    <div class="space-y-6 text-slate-700 leading-relaxed">
+                        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-xl font-medium text-emerald-900">
+                            "시민 여러분, 안녕하십니까! 기분 좋은 선선한 가을바람이 넘쳐나는 10월입니다."
+                        </div>
+                        <p>
+                            푸른 남해 바다가 한층 더 깊어지는 10월, 거제는 섬 전체가 가을빛으로 물들고 있습니다. 거제 시정소식지 <b>&lt;함께거제&gt;</b> 이번 호에서는 가을의 정취를 만끽할 수 있는 다채로운 문화 축제 소식과 소상공인 및 청년들을 위한 알찬 지원 정책을 함께 담았습니다.
+                        </p>
+                        <div class="w-full h-56 bg-gradient-to-br from-emerald-100 to-teal-200 rounded-xl flex flex-col items-center justify-center p-6 text-center border border-emerald-200">
+                            <span class="text-4xl mb-2">🍁</span>
+                            <h4 class="font-bold text-emerald-900 text-lg">2026년 10월 거제시 주요 시정 목표</h4>
+                            <p class="text-xs text-emerald-700 mt-1">시민이 행복한 문화도시 • 지속가능한 침체 극복 경제 선도</p>
+                        </div>
+                        <p>
+                            시민 여러분의 가정에 늘 행복과 평안이 가득하시길 기원하며, 소식지 속 다양한 거제의 이야기와 함께 따뜻한 가을날을 만끽하시길 진심으로 바랍니다.
+                        </p>
+                    </div>
+                `
+            },
+            {
+                category: "01 INTERVIEW",
+                title: "낮과 밤, 금속과 빛의 반전 예술",
+                subtitle: "거제 출신 금속 공예 장인 이숙 작가가 전하는 빛 이야기",
+                headerGradient: "from-slate-800 to-zinc-900",
+                icon: "✨",
+                content: `
+                    <div class="space-y-6 text-slate-700 leading-relaxed">
+                        <div class="w-full h-60 bg-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-500 shadow-inner">
+                            <span class="text-4xl mb-2">⚒️</span>
+                            <span class="font-bold text-slate-800">[ 이숙 작가 작업실 및 대표 금속 조형물 ]</span>
+                            <span class="text-xs text-slate-400 mt-1">투과하는 빛에 따라 형태
