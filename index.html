@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>거제 시정소식지 함께거제</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,6 +11,8 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh;
         }
         .font-noto-sans {
             font-family: 'Noto Sans KR', sans-serif !important;
@@ -44,12 +46,18 @@
         .lh-tight { line-height: 1.4 !important; }
         .lh-normal { line-height: 1.75 !important; }
         .lh-relaxed { line-height: 2.1 !important; }
+        
+        /* 모바일 Dynamic Viewport Height 지원 */
+        .app-height {
+            height: 100vh;
+            height: 100dvh;
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-800 min-h-[100dvh] w-full flex items-center justify-center select-none m-0 p-0 overflow-x-hidden">
+<body class="bg-slate-900 text-slate-800 app-height w-screen overflow-hidden flex items-center justify-center select-none">
 
-    <!-- App Container (모바일 해상도 대응 100dvh 적용) -->
-    <div id="app" class="relative w-full max-w-5xl h-[100dvh] md:h-[95vh] bg-slate-50 md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-800">
+    <!-- App Container -->
+    <div id="app" class="relative w-full max-w-5xl app-height bg-slate-50 md:h-[95vh] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-800">
 
         <!-- Top Navigation Header -->
         <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative">
@@ -61,8 +69,8 @@
                 </button>
             </div>
 
-            <!-- Center: 함께거제 정중앙 배치 및 클릭 시 메인화면 이동 -->
-            <div onclick="showHubView()" class="absolute left-1/2 -translate-x-1/2 font-black text-slate-900 text-base sm:text-lg tracking-tight select-none cursor-pointer hover:text-emerald-600 transition">
+            <!-- Center: 함께거제 (클릭 시 메인화면 이동) -->
+            <div onclick="showHubView()" class="absolute left-1/2 -translate-x-1/2 font-black text-slate-900 text-base sm:text-lg tracking-tight select-none cursor-pointer hover:text-emerald-700 transition">
                 <span>함께거제</span>
             </div>
 
@@ -76,12 +84,12 @@
         </header>
 
         <!-- Main Body Area -->
-        <main class="flex-1 relative overflow-y-auto custom-scroll bg-slate-100">
+        <main class="flex-1 relative overflow-hidden bg-slate-100 h-full">
 
             <!-- ======================================================== -->
             <!-- 1. HUB INDEX VIEW (ProSports Webzine Style Grid Cards)  -->
             <!-- ======================================================== -->
-            <div id="hub-view" class="p-4 sm:p-8 space-y-8 pb-16">
+            <div id="hub-view" class="h-full overflow-y-auto custom-scroll p-4 sm:p-8 space-y-8">
                 
                 <!-- Hero Banner / Cover Section -->
                 <div class="relative w-full rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-700 to-slate-900 text-white p-6 sm:p-10 shadow-lg overflow-hidden group">
@@ -113,7 +121,7 @@
                 </div>
 
                 <!-- Grid Thumbnails -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-12">
 
                     <!-- Card 0: Cover Story -->
                     <div onclick="openArticle(0)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
@@ -310,10 +318,10 @@
             <!-- ======================================================== -->
             <!-- 2. ARTICLE READER DRAWER VIEW (Detailed Page Mode)      -->
             <!-- ======================================================== -->
-            <div id="article-view" class="hidden flex flex-col bg-white min-h-full pb-16">
+            <div id="article-view" class="hidden absolute inset-0 bg-white z-20 flex flex-col h-full">
                 
                 <!-- Article Header Navigation -->
-                <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
+                <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0 z-10">
                     <button onclick="showHubView()" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 hover:text-emerald-600 transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                         <span>목차로 돌아가기</span>
@@ -324,32 +332,32 @@
                 </div>
 
                 <!-- Scrollable Article Content Box -->
-                <div id="article-content-scroll" class="flex-1 p-6 sm:p-12 max-w-3xl mx-auto w-full">
-                    <div id="article-body-container" class="space-y-6 font-noto-sans text-base lh-normal">
+                <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll p-6 sm:p-12 max-w-3xl mx-auto w-full">
+                    <div id="article-body-container" class="space-y-6 font-noto-sans text-base lh-normal pb-10">
                         <!-- Dynamic Content Injected via JS -->
                     </div>
+                </div>
+
+                <!-- Bottom Fixed Navigation Bar (하단 고정 메뉴) -->
+                <div class="h-14 bg-slate-50/95 backdrop-blur border-t border-slate-200 px-4 sm:px-8 flex items-center justify-between flex-shrink-0 text-xs sm:text-sm z-10 shadow-lg">
+                    <button id="prev-art-btn" onclick="navArticle(-1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer py-2 px-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        <span class="hidden sm:inline">이전 코너</span>
+                    </button>
+
+                    <span id="article-progress-txt" class="font-extrabold text-slate-500 text-xs select-none">
+                        1 / 7
+                    </span>
+
+                    <button id="next-art-btn" onclick="navArticle(1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer py-2 px-1">
+                        <span class="hidden sm:inline">다음 코너</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                 </div>
 
             </div>
 
         </main>
-
-        <!-- Bottom Navigation Bar (고정 메뉴) -->
-        <div id="bottom-nav-bar" class="h-14 bg-slate-50 border-t border-slate-200 px-4 sm:px-8 flex items-center justify-between flex-shrink-0 text-xs sm:text-sm z-30 shadow-md">
-            <button id="prev-art-btn" onclick="navArticle(-1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                <span class="hidden sm:inline">이전 코너</span>
-            </button>
-
-            <span id="article-progress-txt" class="font-extrabold text-slate-500 text-xs">
-                메인 허브
-            </span>
-
-            <button id="next-art-btn" onclick="navArticle(1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 transition disabled:opacity-30 disabled:hover:text-slate-700 cursor-pointer">
-                <span class="hidden sm:inline">다음 코너</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </button>
-        </div>
 
         <!-- Table of Contents Modal -->
         <div id="toc-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
@@ -425,4 +433,84 @@
                     <div class="grid grid-cols-3 gap-2 text-xs">
                         <button onclick="setReaderLH('lh-tight')" id="lh-btn-tight" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">좁게</button>
                         <button onclick="setReaderLH('lh-normal')" id="lh-btn-normal" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
-                        <button onclick="setReaderLH('lh-relaxed')"
+                        <button onclick="setReaderLH('lh-relaxed')" id="lh-btn-relaxed" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">넓게</button>
+                    </div>
+                </div>
+
+                <button onclick="toggleSettingsModal(false)" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition shadow-md cursor-pointer">
+                    확인
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script Section -->
+    <script>
+        const articles = [
+            {
+                category: "COVER STORY",
+                title: "가을 바다로 떠나는 휴식 여행",
+                subtitle: "푸른 바다와 가을빛이 머무는 10월의 함께거제",
+                headerGradient: "from-emerald-700 to-teal-900",
+                icon: "🌊",
+                content: `
+                    <div class="space-y-6 text-slate-700 leading-relaxed">
+                        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-xl font-medium text-emerald-900">
+                            "시민 여러분, 안녕하십니까! 기분 좋은 선선한 가을바람이 넘쳐나는 10월입니다."
+                        </div>
+                        <p>
+                            푸른 남해 바다가 한층 더 깊어지는 10월, 거제는 섬 전체가 가을빛으로 물들고 있습니다. 거제 시정소식지 <b>&lt;함께거제&gt;</b> 이번 호에서는 가을의 정취를 만끽할 수 있는 다채로운 문화 축제 소식과 소상공인 및 청년들을 위한 알찬 지원 정책을 함께 담았습니다.
+                        </p>
+                        <div class="w-full h-56 bg-gradient-to-br from-emerald-100 to-teal-200 rounded-xl flex flex-col items-center justify-center p-6 text-center border border-emerald-200">
+                            <span class="text-4xl mb-2">🍁</span>
+                            <h4 class="font-bold text-emerald-900 text-lg">2026년 10월 거제시 주요 시정 목표</h4>
+                            <p class="text-xs text-emerald-700 mt-1">시민이 행복한 문화도시 • 지속가능한 침체 극복 경제 선도</p>
+                        </div>
+                        <p>
+                            시민 여러분의 가정에 늘 행복과 평안이 가득하시길 기원하며, 소식지 속 다양한 거제의 이야기와 함께 따뜻한 가을날을 만끽하시길 진심으로 바랍니다.
+                        </p>
+                    </div>
+                `
+            },
+            {
+                category: "01 INTERVIEW",
+                title: "낮과 밤, 금속과 빛의 반전 예술",
+                subtitle: "거제 출신 금속 공예 장인 이숙 작가가 전하는 빛 이야기",
+                headerGradient: "from-slate-800 to-zinc-900",
+                icon: "✨",
+                content: `
+                    <div class="space-y-6 text-slate-700 leading-relaxed">
+                        <div class="w-full h-60 bg-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-500 shadow-inner">
+                            <span class="text-4xl mb-2">⚒️</span>
+                            <span class="font-bold text-slate-800">[ 이숙 작가 작업실 및 대표 금속 조형물 ]</span>
+                            <span class="text-xs text-slate-400 mt-1">투과하는 빛에 따라 형태가 변하는 반전 미학 작품</span>
+                        </div>
+                        <p>
+                            차갑고 단단하게 느껴지는 차가운 금속 소재에 섬세한 펀칭 기법으로 온기와 빛을 불어넣는 금속 공예가 이숙 작가. 그녀의 작업실은 조명이 켜지는 순간 또 다른 우주로 변신합니다.
+                        </p>
+                        <h3 class="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">Q. 금속이라는 차가운 소재에 빛을 결합하시게 된 계기는?</h3>
+                        <p>
+                            "거제의 낮과 밤 바다는 전혀 다른 얼굴을 가지고 있습니다. 낮에는 일렁이는 햇살을 품고, 밤에는 달빛과 어선의 불빛을 비추죠. 제 금속 작품도 낮에는 묵묵한 조형물로, 조명이 켜진 밤에는 빛을 뿜어내는 입체 예술로 반전 매력을 선사하고 싶었습니다."
+                        </p>
+                        <div class="p-4 bg-slate-100 rounded-xl border border-slate-200">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">💡 이숙 작가의 한마디</h4>
+                            <p class="text-xs text-slate-600">
+                                "거제 시민분들도 일상 속 지친 마음을 예술 작품과 빛이 선사하는 포근함으로 달래보셨으면 좋겠습니다."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "02 TOURISM",
+                title: "거제 섬꽃축제 & 가을 바다 드라이브 코스",
+                subtitle: "국화 향기와 드넓은 오션뷰를 함께 즐기는 10월 여행",
+                headerGradient: "from-blue-600 to-cyan-800",
+                icon: "🌺",
+                content: `
+                    <div class="space-y-6 text-slate-700 leading-relaxed">
+                        <div class="space-y-4">
+                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded">추천 명소 1</span>
+                                <h3 class="font-bold text-slate-900 text-lg">제18
