@@ -6,11 +6,17 @@
     <title>거제 시정소식지 함께거제 - 2026년 10월호</title>
     <!-- Tailwind CSS for modern responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Noto Sans KR -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Noto Sans KR & Noto Serif KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
+        }
+        .font-noto-sans {
+            font-family: 'Noto Sans KR', sans-serif !important;
+        }
+        .font-noto-serif {
+            font-family: 'Noto Serif KR', serif !important;
         }
         /* Smooth scrolling */
         html {
@@ -38,6 +44,10 @@
             transform: translateY(-6px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+        /* Line height utilities */
+        .lh-tight { line-height: 1.4 !important; }
+        .lh-normal { line-height: 1.75 !important; }
+        .lh-relaxed { line-height: 2.1 !important; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-800 h-screen w-screen overflow-hidden flex items-center justify-center select-none">
@@ -47,16 +57,15 @@
 
         <!-- Top Navigation Header -->
         <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm">
-            <!-- Left: Home / Hub Button -->
-            <button onclick="showHubView()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95">
-                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                <span class="font-bold text-slate-800">목차 홈</span>
+            <!-- Left: 독서환경설정 Button -->
+            <button onclick="toggleSettingsModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition active:scale-95">
+                <span class="font-bold text-xs border border-slate-400 rounded px-1 py-0.5">Aa</span>
+                <span class="font-bold text-slate-800">독서환경설정</span>
             </button>
 
-            <!-- Center Brand Header -->
-            <div class="flex items-center gap-2 font-black text-slate-900 text-base sm:text-lg tracking-tight cursor-pointer" onclick="showHubView()">
-                <span class="px-2 py-0.5 bg-emerald-600 text-white rounded text-xs font-bold">2026.10</span>
-                <span>함께<span class="text-emerald-600">거제</span></span>
+            <!-- Center Brand Header: 검은색 통일 & 2026.10 삭제 & 링크 없음 -->
+            <div class="flex items-center gap-2 font-black text-slate-900 text-base sm:text-lg tracking-tight">
+                <span>함께거제</span>
             </div>
 
             <!-- Right: Table of Contents Drawer Modal Toggle -->
@@ -316,7 +325,7 @@
 
                 <!-- Scrollable Article Content Box -->
                 <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll p-6 sm:p-12 max-w-3xl mx-auto w-full">
-                    <div id="article-body-container" class="space-y-6">
+                    <div id="article-body-container" class="space-y-6 font-noto-sans text-base lh-normal">
                         <!-- Dynamic Content Injected via JS -->
                     </div>
                 </div>
@@ -380,311 +389,40 @@
             </div>
         </div>
 
-    </div>
-
-    <!-- Article Data Structure & JavaScript Interactivity -->
-    <script>
-        // Full Article Data Array for all 8 Sections
-        const articles = [
-            {
-                category: "COVER STORY",
-                title: "가을 바다로 떠나는 휴식 여행",
-                subtitle: "푸른 바다와 가을빛이 머무는 10월의 함께거제",
-                headerGradient: "from-emerald-700 to-teal-900",
-                icon: "🌊",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
-                        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-xl font-medium text-emerald-900">
-                            "시민 여러분, 안녕하십니까! 기분 좋은 선선한 가을바람이 넘쳐나는 10월입니다."
-                        </div>
-                        <p>
-                            푸른 남해 바다가 한층 더 깊어지는 10월, 거제는 섬 전체가 가을빛으로 물들고 있습니다. 거제 시정소식지 <b>&lt;함께거제&gt;</b> 이번 호에서는 가을의 정취를 만끽할 수 있는 다채로운 문화 축제 소식과 소상공인 및 청년들을 위한 알찬 지원 정책을 함께 담았습니다.
-                        </p>
-                        <div class="w-full h-56 bg-gradient-to-br from-emerald-100 to-teal-200 rounded-xl flex flex-col items-center justify-center p-6 text-center border border-emerald-200">
-                            <span class="text-4xl mb-2">🍁</span>
-                            <h4 class="font-bold text-emerald-900 text-lg">2026년 10월 거제시 주요 시정 목표</h4>
-                            <p class="text-xs text-emerald-700 mt-1">시민이 행복한 문화도시 • 지속가능한 침체 극복 경제 선도</p>
-                        </div>
-                        <p>
-                            시민 여러분의 가정에 늘 행복과 평안이 가득하시길 기원하며, 소식지 속 다양한 거제의 이야기와 함께 따뜻한 가을날을 만끽하시길 진심으로 바랍니다.
-                        </p>
-                    </div>
-                `
-            },
-            {
-                category: "01 INTERVIEW",
-                title: "낮과 밤, 금속과 빛의 반전 예술",
-                subtitle: "거제 출신 금속 공예 장인 이숙 작가가 전하는 빛 이야기",
-                headerGradient: "from-slate-800 to-zinc-900",
-                icon: "✨",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
-                        <div class="w-full h-60 bg-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-500 shadow-inner">
-                            <span class="text-4xl mb-2">⚒️</span>
-                            <span class="font-bold text-slate-800">[ 이숙 작가 작업실 및 대표 금속 조형물 ]</span>
-                            <span class="text-xs text-slate-400 mt-1">투과하는 빛에 따라 형태가 변하는 반전 미학 작품</span>
-                        </div>
-                        <p>
-                            차갑고 단단하게 느껴지는 차가운 금속 소재에 섬세한 펀칭 기법으로 온기와 빛을 불어넣는 금속 공예가 이숙 작가. 그녀의 작업실은 조명이 켜지는 순간 또 다른 우주로 변신합니다.
-                        </p>
-                        <h3 class="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">Q. 금속이라는 차가운 소재에 빛을 결합하시게 된 계기는?</h3>
-                        <p>
-                            "거제의 낮과 밤 바다는 전혀 다른 얼굴을 가지고 있습니다. 낮에는 일렁이는 햇살을 품고, 밤에는 달빛과 어선의 불빛을 비추죠. 제 금속 작품도 낮에는 묵묵한 조형물로, 조명이 켜진 밤에는 빛을 뿜어내는 입체 예술로 반전 매력을 선사하고 싶었습니다."
-                        </p>
-                        <div class="p-4 bg-slate-100 rounded-xl border border-slate-200">
-                            <h4 class="font-bold text-slate-900 text-sm mb-1">💡 이숙 작가의 한마디</h4>
-                            <p class="text-xs text-slate-600">
-                                "거제 시민분들도 일상 속 지친 마음을 예술 작품과 빛이 선사하는 포근함으로 달래보셨으면 좋겠습니다."
-                            </p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                category: "02 TOURISM",
-                title: "거제 섬꽃축제 & 가을 바다 드라이브 코스",
-                subtitle: "국화 향기와 드넓은 오션뷰를 함께 즐기는 10월 여행",
-                headerGradient: "from-blue-600 to-cyan-800",
-                icon: "🌺",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
-                        <div class="space-y-4">
-                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded">추천 명소 1</span>
-                                <h3 class="font-bold text-slate-900 text-lg">제18회 거제 섬꽃축제 현장</h3>
-                                <p class="text-xs sm:text-sm text-slate-600">
-                                    거제시 농업개발원에서 개최되는 이번 섬꽃축제는 수만 송이 국화 조형물과 곤충체험관, 다채로운 공연이 연출되는 최고의 가을 가족 나들이 코스입니다.
-                                </p>
-                            </div>
-                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                                <span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-xs font-bold rounded">추천 명소 2</span>
-                                <h3 class="font-bold text-slate-900 text-lg">여차-홍포 해안도로 드라이브</h3>
-                                <p class="text-xs sm:text-sm text-slate-600">
-                                    점점 수많은 섬들이 남해 바다 위로 펼쳐지는 환상의 드라이브 코스. 가을 노을빛이 물들 때 방문하시면 평생 잊지 못할 장관을 감상하실 수 있습니다.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                category: "03 LIFE",
-                title: "알아두면 유용한 10월 거제 지원 혜택",
-                subtitle: "소상공인 맞춤형 지원부터 청년 자격증 수강료 지원까지",
-                headerGradient: "from-indigo-700 to-purple-900",
-                icon: "💡",
-                content: `
-                    <div class="space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
-                        <div class="border border-indigo-200 rounded-xl p-5 bg-indigo-50/50 space-y-3">
-                            <span class="px-2 py-1 bg-indigo-600 text-white font-bold text-xs rounded">지원 정책 01</span>
-                            <h3 class="font-bold text-slate-900 text-lg">소상공인 융자이자 및 경영안정자금</h3>
-                            <p class="text-xs sm:text-sm text-slate-600">
-                                관내 소상공인의 사업장 임차료 및 시설 개선 비용에 대해 융자 이자를 지원합니다.
-                            </p>
-                            <ul class="text-xs text-slate-500 space-y-1 list-disc list-inside">
-                                <li>신청 기간: 10월 10일 ~ 10월 31일</li>
-                                <li>문의: 거제시 지역경제과 (055-639-0000)</li>
-                            </ul>
-                        </div>
-
-                        <div class="border border-purple-200 rounded-xl p-5 bg-purple-50/50 space-y-3">
-                            <span class="px-2 py-1 bg-purple-600 text-white font-bold text-xs rounded">지원 정책 02</span>
-                            <h3 class="font-bold text-slate-900 text-lg">청년 구직활동 자격증 수강료 지원</h3>
-                            <p class="text-xs sm:text-sm text-slate-600">
-                                만 19세~39세 미취업 청년의 국가기술자격증 및 어학 시험 응시료를 1인당 최대 15만 원까지 지원합니다.
-                            </p>
-                            <p class="text-xs text-slate-500">
-                                📌 신청 방법: 거제 청년포털 온라인 지원
-                            </p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                category: "04 CULTURE",
-                title: "10월 거제 문화 행사 한눈에 보기",
-                subtitle: "가을밤을 수놓는 음악회와 예술 전시 일정",
-                headerGradient: "from-rose-600 to-pink-800",
-                icon: "📅",
-                content: `
-                    <div class="space-y-4 text-slate-700">
-                        <div class="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-4 shadow-sm">
-                            <div class="w-14 h-14 bg-rose-600 text-white rounded-lg flex flex-col items-center justify-center font-bold flex-shrink-0">
-                                <span class="text-[10px]">10월</span>
-                                <span class="text-base">12일</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-base">제18회 거제 섬꽃축제 개막식</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">거제시 농업개발원 / 국화조형물 전시 및 축하공연</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-4 shadow-sm">
-                            <div class="w-14 h-14 bg-sky-600 text-white rounded-lg flex flex-col items-center justify-center font-bold flex-shrink-0">
-                                <span class="text-[10px]">10월</span>
-                                <span class="text-base">18일</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-base">시립합창단 가을 음악회</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">거제문화예술회관 대극장 / 아름다운 클래식 합창</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-4 shadow-sm">
-                            <div class="w-14 h-14 bg-purple-600 text-white rounded-lg flex flex-col items-center justify-center font-bold flex-shrink-0">
-                                <span class="text-[10px]">10월</span>
-                                <span class="text-base">25일</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-base">옥포 야외 미술 전시회</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">옥포 수변공원 / 관내 예술 작가 작품 50여 점 출품</p>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                category: "05 READER",
-                title: "시민이 만들어가는 함께거제",
-                subtitle: "소식지 독자분들이 전해주는 정겨운 목소리",
-                headerGradient: "from-teal-600 to-emerald-800",
-                icon: "💬",
-                content: `
-                    <div class="space-y-6 text-slate-700">
-                        <div class="grid gap-4 sm:grid-cols-2">
-                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center text-xs font-bold text-emerald-800">
-                                    <span>고현동 김민지 독자</span>
-                                    <span>⭐⭐⭐⭐⭐</span>
-                                </div>
-                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                                    "스마트폰 썸네일 목차 카드 형태로 웹진이 변경되니 원하는 코너를 바로 찾아 읽을 수 있어서 훨씬 편리해졌어요!"
-                                </p>
-                            </div>
-                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center text-xs font-bold text-sky-800">
-                                    <span>장승포동 박철우 독자</span>
-                                    <span>⭐⭐⭐⭐⭐</span>
-                                </div>
-                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                                    "가을 드라이브 코스 기사를 보고 주말에 가족들과 다녀왔습니다. 좋은 장소를 소개해 주셔서 감사합니다."
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                category: "06 EVENT",
-                title: "숨은그림찾기 퀴즈 이벤트",
-                subtitle: "몽돌이와 함께 그림 속 거제 특산물 3가지를 찾아보세요!",
-                headerGradient: "from-amber-500 to-orange-700",
-                icon: "🧩",
-                content: `
-                    <div class="space-y-6 text-slate-700 text-center sm:text-left">
-                        <div class="w-full h-64 bg-amber-100 rounded-2xl border-2 border-dashed border-amber-300 flex flex-col items-center justify-center p-6 space-y-3">
-                            <span class="text-5xl">🎨</span>
-                            <h4 class="font-extrabold text-amber-900 text-lg">[ 10월 숨은그림찾기 일러스트 ]</h4>
-                            <p class="text-xs text-amber-800 max-w-sm">
-                                그림 속에 숨겨진 <b>유자🍊, 몽돌이🪨, 멸치상자🐟</b>를 찾아 아래 정답을 선택해주세요!
-                            </p>
-                        </div>
-
-                        <!-- Interactive Quiz Selection -->
-                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
-                            <h4 class="font-bold text-slate-900 text-sm">정답을 선택하여 이벤트에 응모하세요:</h4>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                                <button onclick="checkAnswer(1)" class="p-3 bg-white border border-slate-300 rounded-lg font-bold hover:border-emerald-500 hover:bg-emerald-50 transition">
-                                    1. 유자, 몽돌이, 멸치
-                                </button>
-                                <button onclick="checkAnswer(2)" class="p-3 bg-white border border-slate-300 rounded-lg font-bold hover:border-emerald-500 hover:bg-emerald-50 transition">
-                                    2. 사과, 돌고래, 오징어
-                                </button>
-                                <button onclick="checkAnswer(3)" class="p-3 bg-white border border-slate-300 rounded-lg font-bold hover:border-emerald-500 hover:bg-emerald-50 transition">
-                                    3. 감귤, 해녀, 소라
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `
-            }
-        ];
-
-        let currentArticleIndex = 0;
-
-        const hubView = document.getElementById('hub-view');
-        const articleView = document.getElementById('article-view');
-        const articleBodyContainer = document.getElementById('article-body-container');
-        const articleCategoryBadge = document.getElementById('article-category-badge');
-        const articleProgressTxt = document.getElementById('article-progress-txt');
-        const prevArtBtn = document.getElementById('prev-art-btn');
-        const nextArtBtn = document.getElementById('next-art-btn');
-        const articleContentScroll = document.getElementById('article-content-scroll');
-
-        // Show Main Hub Index View
-        function showHubView() {
-            hubView.classList.remove('hidden');
-            articleView.classList.add('hidden');
-        }
-
-        // Open Specific Article
-        function openArticle(index) {
-            if (index < 0 || index >= articles.length) return;
-            currentArticleIndex = index;
-            const data = articles[index];
-
-            // Render Article Markup
-            articleCategoryBadge.innerText = data.category;
-            articleProgressTxt.innerText = `${currentArticleIndex + 1} / ${articles.length}`;
-
-            articleBodyContainer.innerHTML = `
-                <!-- Article Hero Header -->
-                <div class="w-full rounded-2xl bg-gradient-to-br ${data.headerGradient} text-white p-6 sm:p-8 shadow-md relative overflow-hidden">
-                    <span class="text-4xl block mb-2">${data.icon}</span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-white/80">${data.category}</span>
-                    <h1 class="text-2xl sm:text-3xl font-black text-white mt-1 leading-tight">${data.title}</h1>
-                    <p class="text-xs sm:text-sm text-white/90 font-light mt-2">${data.subtitle}</p>
+        <!-- 독서환경설정 모달 창 (3, 4, 5, 6번 반영) -->
+        <div id="settings-modal" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 space-y-5 border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+                        <span class="text-emerald-600 font-extrabold">Aa</span> 독서환경설정
+                    </h3>
+                    <button onclick="toggleSettingsModal(false)" class="text-slate-400 hover:text-slate-600 font-bold p-1">✕</button>
                 </div>
 
-                <!-- Article Body Content -->
-                <div class="pt-2">
-                    ${data.content}
+                <!-- 4. 글꼴 선택 (노출: 고딕, 명조) -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">글꼴</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <button onclick="setReaderFont('font-noto-sans')" id="font-btn-sans" class="p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-center">고딕</button>
+                        <button onclick="setReaderFont('font-noto-serif')" id="font-btn-serif" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-noto-serif text-center">명조</button>
+                    </div>
                 </div>
-            `;
 
-            // Update Navigation Buttons state
-            prevArtBtn.disabled = (currentArticleIndex === 0);
-            nextArtBtn.disabled = (currentArticleIndex === articles.length - 1);
+                <!-- 5. 크기 선택 (작게, 보통, 크게, 매우크게) -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">크기</label>
+                    <div class="grid grid-cols-4 gap-1.5 text-xs">
+                        <button onclick="setReaderSize('text-sm')" id="size-btn-sm" class="p-2 rounded-lg border border-slate-200 text-slate-700">작게</button>
+                        <button onclick="setReaderSize('text-base')" id="size-btn-base" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold">보통</button>
+                        <button onclick="setReaderSize('text-lg')" id="size-btn-lg" class="p-2 rounded-lg border border-slate-200 text-slate-700">크게</button>
+                        <button onclick="setReaderSize('text-xl')" id="size-btn-xl" class="p-2 rounded-lg border border-slate-200 text-slate-700">매우크게</button>
+                    </div>
+                </div>
 
-            // Switch View
-            hubView.classList.add('hidden');
-            articleView.classList.remove('hidden');
-            articleContentScroll.scrollTop = 0;
-        }
-
-        // Navigate Prev/Next Article
-        function navArticle(direction) {
-            const nextIndex = currentArticleIndex + direction;
-            if (nextIndex >= 0 && nextIndex < articles.length) {
-                openArticle(nextIndex);
-            }
-        }
-
-        // TOC Modal Toggle
-        function toggleTocModal(show) {
-            const modal = document.getElementById('toc-modal');
-            if (show) modal.classList.remove('hidden');
-            else modal.classList.add('hidden');
-        }
-
-        // Quiz Logic
-        function checkAnswer(num) {
-            if (num === 1) {
-                alert('🎉 정답입니다! 축하합니다.\n모바일 거제사랑상품권 이벤트 응모가 완료되었습니다.');
-            } else {
-                alert('❌ 아쉽네요! 다시 한 번 찾아보세요.');
-            }
-        }
-    </script>
-</body>
-</html>
+                <!-- 6. 글간격 선택 (좁게, 보통, 넓게) -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">글간격</label>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <button onclick="setReaderLH('lh-tight')" id="lh-btn-tight" class="p-2 rounded-lg border border-slate-200 text-slate-700">좁게</button>
+                        <button onclick="setReaderLH('lh-normal')" id="lh-btn-normal" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold">보통</button>
+                        <button onclick="setReaderLH('lh-relaxed')" id="lh-btn-relaxed" class="p-2 rounded-lg border border-slate-200 text-slate-700">넓
