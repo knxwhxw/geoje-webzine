@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>거제시정소식지 함께거제</title>
+    <title>거제 시정소식지 함께거제</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Noto Sans KR & Noto Serif KR -->
@@ -19,11 +19,12 @@
             padding: 0;
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #0f172a;
+            overscroll-behavior-y: none;
         }
-        .font-noto-sans {
+        .font-noto-sans, .font-noto-sans * {
             font-family: 'Noto Sans KR', sans-serif !important;
         }
-        .font-noto-serif {
+        .font-noto-serif, .font-noto-serif * {
             font-family: 'Noto Serif KR', serif !important;
         }
         /* Custom Scrollbar */
@@ -43,10 +44,23 @@
         .card-hover-effect:active {
             transform: scale(0.98);
         }
-        .lh-tight { line-height: 1.4 !important; }
-        .lh-normal { line-height: 1.75 !important; }
-        .lh-relaxed { line-height: 2.1 !important; }
         
+        /* 독서환경설정 글간격 및 크기 일괄 강제 적용 스타일 */
+        .lh-tight, .lh-tight * { line-height: 1.4 !important; }
+        .lh-normal, .lh-normal * { line-height: 1.75 !important; }
+        .lh-relaxed, .lh-relaxed * { line-height: 2.1 !important; }
+
+        .text-sm-force, .text-sm-force p, .text-sm-force div, .text-sm-force span, .text-sm-force li { font-size: 0.875rem !important; }
+        .text-base-force, .text-base-force p, .text-base-force div, .text-base-force span, .text-base-force li { font-size: 1rem !important; }
+        .text-lg-force, .text-lg-force p, .text-lg-force div, .text-lg-force span, .text-lg-force li { font-size: 1.125rem !important; }
+        .text-xl-force, .text-xl-force p, .text-xl-force div, .text-xl-force span, .text-xl-force li { font-size: 1.25rem !important; }
+
+        /* 모바일 스크롤 바운스 / 당겨짐 현상 완전 방지 */
+        .prevent-bounce {
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+        }
+
         .app-container {
             height: 100%;
             height: 100dvh;
@@ -76,7 +90,7 @@
             <!-- Right: 전체 목차 Toggle -->
             <div class="flex items-center">
                 <button id="btn-open-toc" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 active:bg-slate-200 text-slate-700 transition cursor-pointer">
-                    <span class="hidden sm:inline font-bold">목차</span>
+                    <span class="hidden sm:inline font-bold">전체 목차</span>
                     <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
@@ -88,7 +102,7 @@
             <!-- ======================================================== -->
             <!-- 1. HUB INDEX VIEW (ProSports Webzine Style Grid Cards)  -->
             <!-- ======================================================== -->
-            <div id="hub-view" class="h-full overflow-y-auto custom-scroll p-4 sm:p-8 space-y-8">
+            <div id="hub-view" class="h-full overflow-y-auto custom-scroll prevent-bounce p-4 sm:p-8 space-y-8 font-noto-sans text-base-force lh-normal">
                 
                 <!-- Hero Banner / Cover Section -->
                 <div class="relative w-full rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-700 to-slate-900 text-white p-6 sm:p-10 shadow-lg overflow-hidden group">
@@ -314,7 +328,7 @@
             <!-- ======================================================== -->
             <!-- 2. ARTICLE READER DRAWER VIEW (Detailed Page Mode)      -->
             <!-- ======================================================== -->
-            <div id="article-view" class="hidden absolute inset-0 bg-white z-20 flex flex-col h-full w-full">
+            <div id="article-view" class="hidden absolute inset-0 bg-white z-20 flex flex-col h-full w-full overflow-hidden">
                 
                 <!-- Article Header Navigation -->
                 <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0 z-10">
@@ -327,9 +341,9 @@
                     </span>
                 </div>
 
-                <!-- Scrollable Article Content Box -->
-                <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll p-5 sm:p-10 max-w-3xl mx-auto w-full">
-                    <div id="article-body-container" class="space-y-6 font-noto-sans text-base lh-normal pb-12">
+                <!-- Scrollable Article Content Box (바운스 방지 및 독서환경 적용 영역) -->
+                <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll prevent-bounce p-5 sm:p-10 max-w-3xl mx-auto w-full">
+                    <div id="article-body-container" class="space-y-6 font-noto-sans text-base-force lh-normal pb-12">
                         <!-- Dynamic Content Injected via JS -->
                     </div>
                 </div>
@@ -362,7 +376,7 @@
                     <h3 class="font-extrabold text-slate-800 text-base">전체 목차 메뉴</h3>
                     <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-2 cursor-pointer font-bold">✕</button>
                 </div>
-                <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll">
+                <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll prevent-bounce">
                     <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 active:bg-emerald-100 transition flex justify-between items-center group bg-slate-50 mb-2 cursor-pointer">
                         <span class="font-bold text-emerald-700">🏠 메인 목차 홈으로</span>
                     </button>
@@ -414,10 +428,10 @@
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">크기</label>
                     <div class="grid grid-cols-4 gap-1.5 text-xs">
-                        <button onclick="setReaderSize('text-sm')" id="size-btn-sm" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">작게</button>
-                        <button onclick="setReaderSize('text-base')" id="size-btn-base" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
-                        <button onclick="setReaderSize('text-lg')" id="size-btn-lg" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">크게</button>
-                        <button onclick="setReaderSize('text-xl')" id="size-btn-xl" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">매우크게</button>
+                        <button onclick="setReaderSize('text-sm-force')" id="size-btn-sm" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">작게</button>
+                        <button onclick="setReaderSize('text-base-force')" id="size-btn-base" class="p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer">보통</button>
+                        <button onclick="setReaderSize('text-lg-force')" id="size-btn-lg" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">크게</button>
+                        <button onclick="setReaderSize('text-xl-force')" id="size-btn-xl" class="p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer">매우크게</button>
                     </div>
                 </div>
 
@@ -667,7 +681,7 @@
 
         var currentArticleIndex = 0;
         var currentFont = 'font-noto-sans';
-        var currentSize = 'text-base';
+        var currentSize = 'text-base-force';
         var currentLH = 'lh-normal';
 
         function showHubView() {
@@ -696,13 +710,13 @@
 
             if (articleBodyContainer) {
                 articleBodyContainer.innerHTML = 
-                    '<div class="w-full rounded-2xl bg-gradient-to-br ' + data.headerGradient + ' text-white p-6 sm:p-8 shadow-md relative overflow-hidden">' +
+                    '<div class="w-full rounded-2xl bg-gradient-to-br ' + data.headerGradient + ' text-white p-6 sm:p-8 shadow-md relative overflow-hidden mb-6">' +
                         '<span class="text-4xl block mb-2">' + data.icon + '</span>' +
                         '<span class="text-xs font-bold uppercase tracking-wider text-white/80">' + data.category + '</span>' +
                         '<h1 class="text-2xl sm:text-3xl font-black text-white mt-1 leading-tight">' + data.title + '</h1>' +
                         '<p class="text-xs sm:text-sm text-white/90 font-light mt-2">' + data.subtitle + '</p>' +
                     '</div>' +
-                    '<div class="pt-2">' + data.content + '</div>';
+                    '<div class="reader-content">' + data.content + '</div>';
             }
 
             applyReaderStyles();
@@ -748,10 +762,27 @@
 
         function applyReaderStyles() {
             var articleBodyContainer = document.getElementById('article-body-container');
-            if (!articleBodyContainer) return;
+            var hubView = document.getElementById('hub-view');
 
-            articleBodyContainer.classList.remove('font-noto-sans', 'font-noto-serif', 'text-sm', 'text-base', 'text-lg', 'text-xl', 'lh-tight', 'lh-normal', 'lh-relaxed');
-            articleBodyContainer.classList.add(currentFont, currentSize, currentLH);
+            var fontClasses = ['font-noto-sans', 'font-noto-serif'];
+            var sizeClasses = ['text-sm-force', 'text-base-force', 'text-lg-force', 'text-xl-force'];
+            var lhClasses = ['lh-tight', 'lh-normal', 'lh-relaxed'];
+
+            // 1. 기사 본문 독서환경 클래스 적용
+            if (articleBodyContainer) {
+                fontClasses.concat(sizeClasses, lhClasses).forEach(function(cls) {
+                    articleBodyContainer.classList.remove(cls);
+                });
+                articleBodyContainer.classList.add(currentFont, currentSize, currentLH);
+            }
+
+            // 2. 메인 허브 독서환경 클래스 동시 적용
+            if (hubView) {
+                fontClasses.concat(sizeClasses, lhClasses).forEach(function(cls) {
+                    hubView.classList.remove(cls);
+                });
+                hubView.classList.add(currentFont, currentSize, currentLH);
+            }
         }
 
         function setReaderFont(fontClass) {
@@ -772,7 +803,7 @@
             ['sm', 'base', 'lg', 'xl'].forEach(function(s) {
                 var btn = document.getElementById('size-btn-' + s);
                 if (!btn) return;
-                var isMatch = (sizeClass === 'text-' + s);
+                var isMatch = (sizeClass === 'text-' + s + '-force');
                 btn.className = isMatch ? 'p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer' : 'p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer';
             });
         }
