@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>거제 시정소식지 함께거제</title>
+    <title>거제시정소식지 함께거제</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Noto Sans KR & Noto Serif KR -->
@@ -19,7 +19,9 @@
             padding: 0;
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #0f172a;
-            overscroll-behavior-y: none;
+            overscroll-behavior: none;
+            touch-action: none;
+            overflow: hidden;
         }
         .font-noto-sans, .font-noto-sans * {
             font-family: 'Noto Sans KR', sans-serif !important;
@@ -55,10 +57,18 @@
         .text-lg-force, .text-lg-force p, .text-lg-force div, .text-lg-force span, .text-lg-force li { font-size: 1.125rem !important; }
         .text-xl-force, .text-xl-force p, .text-xl-force div, .text-xl-force span, .text-xl-force li { font-size: 1.25rem !important; }
 
-        /* 모바일 스크롤 바운스 / 당겨짐 현상 완전 방지 */
-        .prevent-bounce {
+        /* 내부 스크롤 허용 영역 설정 */
+        .scrollable-area {
             overscroll-behavior-y: contain;
             touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 고정 바 드래그 제어 */
+        .no-drag-bar {
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .app-container {
@@ -73,7 +83,7 @@
     <div id="app" class="relative w-full max-w-5xl app-container bg-slate-50 md:h-[95vh] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
 
         <!-- Top Navigation Header -->
-        <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative">
+        <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative no-drag-bar">
             
             <!-- Left: Aa 독서환경설정 버튼 -->
             <div class="flex items-center">
@@ -102,7 +112,7 @@
             <!-- ======================================================== -->
             <!-- 1. HUB INDEX VIEW (ProSports Webzine Style Grid Cards)  -->
             <!-- ======================================================== -->
-            <div id="hub-view" class="h-full overflow-y-auto custom-scroll prevent-bounce p-4 sm:p-8 space-y-8 font-noto-sans text-base-force lh-normal">
+            <div id="hub-view" class="h-full overflow-y-auto custom-scroll scrollable-area p-4 sm:p-8 space-y-8 font-noto-sans text-base-force lh-normal">
                 
                 <!-- Hero Banner / Cover Section -->
                 <div class="relative w-full rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-700 to-slate-900 text-white p-6 sm:p-10 shadow-lg overflow-hidden group">
@@ -331,7 +341,7 @@
             <div id="article-view" class="hidden absolute inset-0 bg-white z-20 flex flex-col h-full w-full overflow-hidden">
                 
                 <!-- Article Header Navigation -->
-                <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0 z-10">
+                <div class="px-4 sm:px-8 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-shrink-0 z-10 no-drag-bar">
                     <button onclick="showHubView()" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 hover:text-emerald-600 active:text-emerald-700 transition cursor-pointer py-1 px-2 -ml-2 rounded-lg">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                         <span>목차로 돌아가기</span>
@@ -341,15 +351,15 @@
                     </span>
                 </div>
 
-                <!-- Scrollable Article Content Box (바운스 방지 및 독서환경 적용 영역) -->
-                <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll prevent-bounce p-5 sm:p-10 max-w-3xl mx-auto w-full">
+                <!-- Scrollable Article Content Box -->
+                <div id="article-content-scroll" class="flex-1 overflow-y-auto custom-scroll scrollable-area p-5 sm:p-10 max-w-3xl mx-auto w-full">
                     <div id="article-body-container" class="space-y-6 font-noto-sans text-base-force lh-normal pb-12">
                         <!-- Dynamic Content Injected via JS -->
                     </div>
                 </div>
 
                 <!-- Bottom Fixed Navigation Bar (하단 고정 메뉴) -->
-                <div class="h-16 bg-white border-t border-slate-200 px-6 sm:px-10 flex items-center justify-between flex-shrink-0 text-xs sm:text-sm z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+                <div class="h-16 bg-white border-t border-slate-200 px-6 sm:px-10 flex items-center justify-between flex-shrink-0 text-xs sm:text-sm z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] no-drag-bar">
                     <button id="prev-art-btn" onclick="navArticle(-1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 active:text-emerald-700 transition disabled:opacity-30 cursor-pointer py-2 px-3 bg-slate-100 rounded-lg">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         <span>이전 코너</span>
@@ -370,13 +380,13 @@
         </main>
 
         <!-- Table of Contents Modal -->
-        <div id="toc-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div id="toc-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 no-drag-bar">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden border border-slate-200">
                 <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
                     <h3 class="font-extrabold text-slate-800 text-base">전체 목차 메뉴</h3>
                     <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-2 cursor-pointer font-bold">✕</button>
                 </div>
-                <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll prevent-bounce">
+                <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll scrollable-area">
                     <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 active:bg-emerald-100 transition flex justify-between items-center group bg-slate-50 mb-2 cursor-pointer">
                         <span class="font-bold text-emerald-700">🏠 메인 목차 홈으로</span>
                     </button>
@@ -406,7 +416,7 @@
         </div>
 
         <!-- 독서환경설정 모달 창 -->
-        <div id="settings-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div id="settings-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 no-drag-bar">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 space-y-5 border border-slate-200">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <h3 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
@@ -845,6 +855,13 @@
                     toggleTocModal(true);
                 });
             }
+
+            // 모바일 터치 드래그 브라우저 기본 동작 차단
+            document.body.addEventListener('touchmove', function(e) {
+                if (!e.target.closest('.scrollable-area')) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
         });
     </script>
 </body>
