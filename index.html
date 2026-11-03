@@ -129,15 +129,6 @@
                         <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
                             <div><h3 class="font-bold text-slate-900 text-base">낮과 밤, 반전의 아름다움 - 이숙 작가</h3><p class="text-xs text-slate-500 mt-1.5 line-clamp-2">차가운 금속 소재 위 빛을 불어넣는 공예 장인 이야기.</p></div>
                             <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600"><span>기사 읽기</span><span>▶</span></div>
-
-                    <div onclick="openArticle(2)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
-                        <div class="relative h-44 bg-gradient-to-r from-blue-600 to-cyan-700 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-blue-950/70 text-cyan-200 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">02 TOURISM</span>
-                            <div class="text-center p-4"><span class="text-3xl block mb-1">🌺</span><span class="text-white font-extrabold text-base group-hover:scale-105 transition transform inline-block">거제 섬꽃축제 & 드라이브</span></div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div><h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition line-clamp-1">바다 향 가득한 거제 가을 여행 코스</h3><p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">바람의 언덕부터 거제 섬꽃축제, 오션뷰 가을 드라이브 해안도로 가이드.</p></div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600"><span>기사 읽기</span><span>▶</span></div>
                         </div>
                     </div>
                 </div>
@@ -231,13 +222,11 @@
     <!-- 외부 기사 데이터 파일들 순서대로 불러오기 -->
     <script src="./data1.js"></script>
     <script src="./data2.js"></script>
-    <script src="./data3.js"></script>
-
 
     <!-- 뷰어 작동 로직 스크립트 -->
     <script>
         // 개별 기사 변수들을 하나의 배열로 결합
-        var articles = [article1, article2, article3];
+        var articles = [article1, article2];
 
         var currentArticleIndex = 0;
         var currentFont = 'font-noto-sans';
