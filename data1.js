@@ -1,9 +1,8 @@
 var article1 = {
     category: "COVER STORY",
     title: "가을 바다로 떠나는 휴식 여행",
-    subtitle: "푸른 바다와 가을빛이 머무는 10월의 함께거제",
-    headerGradient: "from-emerald-700 to-teal-900",
-    icon: "🌊",
+    summary: "시민 여러분께 전하는 10월의 인사말과 거제의 가을 소식들.",
+    thumbnail: "./images/a1_1.webp", // 👈 썸네일 이미지 경로 추가
     content: `
         <div class="space-y-6 text-slate-700 leading-relaxed">
             <p>푸른 남해 바다가 한층 더 깊어지는 풍경입니다.</p>
