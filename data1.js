@@ -9,7 +9,7 @@ var article1 = {
             
             <!-- 이미지 삽입 코드 -->
             <div class="my-6">
-                <img src="./images/a1_1.webp" alt="거제 풍경 이미지" class="w-full h-auto shadow-md object-cover">
+                <img src="./images/a1_1.webp" alt="거제 풍경 이미지" class="w-full h-auto object-cover">
                 <p class="text-xs text-center text-slate-500 mt-2">▲ 10월의 거제 풍경</p>
             </div>
 
