@@ -1,7 +1,9 @@
 var article1 = {
     category: "COVER STORY",
     title: "가을 바다로 떠나는 휴식 여행",
-    // ... 다른 속성들 ...
+    subtitle: "푸른 바다와 가을빛이 머무는 10월의 함께거제",
+    headerGradient: "from-emerald-700 to-teal-900",
+    icon: "🌊",
     content: `
         <div class="space-y-6 text-slate-700 leading-relaxed">
             <p>푸른 남해 바다가 한층 더 깊어지는 풍경입니다.</p>
