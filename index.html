@@ -401,6 +401,26 @@
                 }
             }, { passive: false });
         });
+
+        // 이미지 클릭 시 전체 화면 팝업 열기
+function openImageModal(imgSrc) {
+    var modal = document.getElementById('image-modal');
+    var modalImg = document.getElementById('modal-image-view');
+    if (modal && modalImg) {
+        modalImg.src = imgSrc;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+}
+
+// 팝업 닫기
+function closeImageModal() {
+    var modal = document.getElementById('image-modal');
+    if (modal) {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+    }
+}
     </script>
 
     <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 -->
