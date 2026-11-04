@@ -80,15 +80,12 @@
         </header>
 
 <!-- 메인 타이틀 배너 영역 -->
-<div class="relative w-full rounded-2xl text-white p-6 sm:p-10 shadow-lg overflow-hidden group min-h-[260px] flex flex-col justify-end">
+<div class="relative w-full rounded-2xl text-white p-6 sm:p-10 shadow-lg overflow-hidden group min-h-[280px] flex flex-col justify-end bg-cover bg-center" style="background-image: url('./images/a1_1.webp');">
     
-    <!-- 1. 배경 이미지 (박스 전체에 꽉 차도록 배치) -->
-    <img src="./images/a1_1.webp" alt="메인 배너 배경" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-    
-    <!-- 2. 어두운 오버레이 (사진 위에 글자가 또렷하게 보이도록 살짝 깔아주는 딤 효과) -->
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/20"></div>
+    <!-- 어두운 오버레이 (사진 위에 글자가 또렷하게 보이도록 살짝 깔아주는 딤 효과) -->
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/20 pointer-events-none"></div>
 
-    <!-- 3. 텍스트 콘텐츠 (사진 및 오버레이 앞으로 나오도록 z-10 적용) -->
+    <!-- 텍스트 콘텐츠 (사진 및 오버레이 앞으로 나오도록 z-10 적용) -->
     <div class="relative z-10 space-y-3 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/40 backdrop-blur-md text-emerald-200 text-xs font-bold rounded-full border border-emerald-400/30">
             <span>VOL. 142</span>
