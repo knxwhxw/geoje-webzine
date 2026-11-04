@@ -195,12 +195,10 @@
             </div>
         </div>
 
-        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 (배경 클릭 닫기 및 네이티브 핀치줌 지원) -->
+        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 -->
         <div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-0 overflow-auto" onclick="closeImageModal()">
-            <!-- 우측 상단 닫기 버튼 -->
             <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-3 z-50 bg-black/40 rounded-full w-12 h-12 flex items-center justify-center">✕</button>
             
-            <!-- 이미지 영역: 핀치 투 줌(두 손가락 확대) 및 마우스 휠 지원, 원본 비율 유지, 라운드 없음 -->
             <div class="relative w-full h-full flex items-center justify-center overflow-auto p-4" onclick="event.stopPropagation()">
                 <img id="modal-image-view" src="" alt="확대 이미지" 
                      class="max-w-full max-h-full object-contain cursor-zoom-in transition-transform duration-75"
@@ -226,26 +224,34 @@
 
     <!-- 뷰어 작동 로직 스크립트 -->
     <script>
-        var articles = [
-            typeof article1 !== 'undefined' ? article1 : null,
-            typeof article2 !== 'undefined' ? article2 : null,
-            typeof article3 !== 'undefined' ? article3 : null,
-            typeof article4 !== 'undefined' ? article4 : null,
-            typeof article5 !== 'undefined' ? article5 : null,
-            typeof article6 !== 'undefined' ? article6 : null,
-            typeof article7 !== 'undefined' ? article7 : null,
-            typeof article8 !== 'undefined' ? article8 : null,
-            typeof article9 !== 'undefined' ? article9 : null,
-            typeof article10 !== 'undefined' ? article10 : null
-        ].filter(Boolean);
-
+        var articles = [];
         var currentArticleIndex = 0;
         var currentFont = 'font-noto-sans';
         var currentSize = 'text-base-force';
         var currentLH = 'lh-normal';
-
-        // 줌 상태 변수
         var isZoomed = false;
+
+        // 기사 데이터를 안전하게 수집하고 배열로 구축하는 함수
+        function initArticles() {
+            articles = [
+                typeof article1 !== 'undefined' ? article1 : null,
+                typeof article2 !== 'undefined' ? article2 : null,
+                typeof article3 !== 'undefined' ? article3 : null,
+                typeof article4 !== 'undefined' ? article4 : null,
+                typeof article5 !== 'undefined' ? article5 : null,
+                typeof article6 !== 'undefined' ? article6 : null,
+                typeof article7 !== 'undefined' ? article7 : null,
+                typeof article8 !== 'undefined' ? article8 : null,
+                typeof article9 !== 'undefined' ? article9 : null,
+                typeof article10 !== 'undefined' ? article10 : null
+            ].filter(Boolean);
+
+            // 총 코너 수 업데이트
+            var countEl = document.getElementById('total-articles-count');
+            if (countEl) {
+                countEl.innerText = '총 ' + articles.length + '개 코너';
+            }
+        }
 
         function renderArticlesGrid() {
             var gridContainer = document.getElementById('articles-grid');
@@ -341,3 +347,113 @@
         }
 
         function toggleSettingsModal(show) {
+            var modal = document.getElementById('settings-modal');
+            if (modal) modal.classList.toggle('hidden', !show);
+            if (modal) modal.classList.toggle('flex', show);
+        }
+
+        function applyReaderStyles() {
+            var articleBodyContainer = document.getElementById('article-body-container');
+            var hubView = document.getElementById('hub-view');
+            var targets = [articleBodyContainer, hubView];
+
+            var fontClasses = ['font-noto-sans', 'font-noto-serif'];
+            var sizeClasses = ['text-sm-force', 'text-base-force', 'text-lg-force', 'text-xl-force'];
+            var lhClasses = ['lh-tight', 'lh-normal', 'lh-relaxed'];
+
+            targets.forEach(function(el) {
+                if (!el) return;
+                fontClasses.concat(sizeClasses, lhClasses).forEach(function(cls) {
+                    el.classList.remove(cls);
+                });
+                el.classList.add(currentFont, currentSize, currentLH);
+            });
+        }
+
+        function setReaderFont(fontClass) {
+            currentFont = fontClass;
+            applyReaderStyles();
+            document.getElementById('font-btn-sans').className = fontClass === 'font-noto-sans' ? 'p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-center cursor-pointer' : 'p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 text-center cursor-pointer';
+            document.getElementById('font-btn-serif').className = fontClass === 'font-noto-serif' ? 'p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold font-noto-serif text-center cursor-pointer' : 'p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 text-center cursor-pointer';
+        }
+
+        function setReaderSize(sizeClass) {
+            currentSize = sizeClass;
+            applyReaderStyles();
+            ['sm', 'base', 'lg', 'xl'].forEach(function(s) {
+                var btn = document.getElementById('size-btn-' + s);
+                if (btn) {
+                    var isMatch = (sizeClass === 'text-' + s + '-force');
+                    btn.className = isMatch ? 'p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer' : 'p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer';
+                }
+            });
+        }
+
+        function setReaderLH(lhClass) {
+            currentLH = lhClass;
+            applyReaderStyles();
+            ['tight', 'normal', 'relaxed'].forEach(function(l) {
+                var btn = document.getElementById('lh-btn-' + l);
+                if (btn) {
+                    var isMatch = (lhClass === 'lh-' + l);
+                    btn.className = isMatch ? 'p-2 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-800 font-bold cursor-pointer' : 'p-2 rounded-lg border border-slate-200 text-slate-700 cursor-pointer';
+                }
+            });
+        }
+
+        function openImageModal(imgSrc) {
+            var modal = document.getElementById('image-modal');
+            var modalImg = document.getElementById('modal-image-view');
+            if (modal && modalImg) {
+                modalImg.src = imgSrc;
+                isZoomed = false;
+                modalImg.style.transform = 'scale(1)';
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeImageModal() {
+            var modal = document.getElementById('image-modal');
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
+        function toggleZoom(e) {
+            e.stopPropagation();
+            var modalImg = document.getElementById('modal-image-view');
+            if (!modalImg) return;
+
+            isZoomed = !isZoomed;
+            if (isZoomed) {
+                modalImg.style.transform = 'scale(2.2)';
+                modalImg.style.cursor = 'zoom-out';
+            } else {
+                modalImg.style.transform = 'scale(1)';
+                modalImg.style.cursor = 'zoom-in';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var btnSettings = document.getElementById('btn-open-settings');
+            var btnToc = document.getElementById('btn-open-toc');
+
+            if (btnSettings) btnSettings.addEventListener('click', function(e) { e.stopPropagation(); toggleSettingsModal(true); });
+            if (btnToc) btnToc.addEventListener('click', function(e) { e.stopPropagation(); toggleTocModal(true); });
+
+            // 데이터 초기화 및 렌더링 실행
+            initArticles();
+            renderArticlesGrid();
+            renderTocModalList();
+
+            document.body.addEventListener('touchmove', function(e) {
+                if (!e.target.closest('.scrollable-area') && !e.target.closest('#image-modal')) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        });
+    </script>
+</body>
+</html>
