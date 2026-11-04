@@ -195,14 +195,16 @@
             </div>
         </div>
 
-        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 -->
-        <div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-0 overflow-auto" onclick="closeImageModal()">
+        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 (배경 클릭 닫기 & 오직 이미지만 개별 확대) -->
+        <div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-4 overflow-hidden" onclick="closeImageModal()">
+            <!-- 우측 상단 닫기 버튼 -->
             <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-3 z-50 bg-black/40 rounded-full w-12 h-12 flex items-center justify-center">✕</button>
             
-            <div class="relative w-full h-full flex items-center justify-center overflow-auto p-4" onclick="event.stopPropagation()">
+            <!-- 이미지 영역 (배경은 고정되고 내부 이미지만 핀치 줌 / 클릭 확대 적용) -->
+            <div class="relative w-full h-full flex items-center justify-center pointer-events-none">
                 <img id="modal-image-view" src="" alt="확대 이미지" 
-                     class="max-w-full max-h-full object-contain cursor-zoom-in transition-transform duration-75"
-                     style="touch-action: pinch-zoom; user-select: none;"
+                     class="max-w-full max-h-full object-contain cursor-zoom-in transition-transform duration-200 pointer-events-auto"
+                     style="user-select: none;"
                      draggable="false"
                      onclick="toggleZoom(event)">
             </div>
@@ -231,7 +233,6 @@
         var currentLH = 'lh-normal';
         var isZoomed = false;
 
-        // 기사 데이터를 안전하게 수집하고 배열로 구축하는 함수
         function initArticles() {
             articles = [
                 typeof article1 !== 'undefined' ? article1 : null,
@@ -246,7 +247,6 @@
                 typeof article10 !== 'undefined' ? article10 : null
             ].filter(Boolean);
 
-            // 총 코너 수 업데이트
             var countEl = document.getElementById('total-articles-count');
             if (countEl) {
                 countEl.innerText = '총 ' + articles.length + '개 코너';
@@ -401,6 +401,7 @@
             });
         }
 
+        // 이미지 모달 열기 및 초기화
         function openImageModal(imgSrc) {
             var modal = document.getElementById('image-modal');
             var modalImg = document.getElementById('modal-image-view');
@@ -408,11 +409,13 @@
                 modalImg.src = imgSrc;
                 isZoomed = false;
                 modalImg.style.transform = 'scale(1)';
+                modalImg.style.cursor = 'zoom-in';
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             }
         }
 
+        // 검은 바탕 클릭 시 모달 닫기
         function closeImageModal() {
             var modal = document.getElementById('image-modal');
             if (modal) {
@@ -421,8 +424,9 @@
             }
         }
 
+        // 이미지 클릭 시 창은 고정되고 이미지만 확대/축소 토글
         function toggleZoom(e) {
-            e.stopPropagation();
+            e.stopPropagation(); // 배경으로 클릭 이벤트가 퍼지는 것을 막아 닫히는 현상 방지
             var modalImg = document.getElementById('modal-image-view');
             if (!modalImg) return;
 
@@ -443,7 +447,6 @@
             if (btnSettings) btnSettings.addEventListener('click', function(e) { e.stopPropagation(); toggleSettingsModal(true); });
             if (btnToc) btnToc.addEventListener('click', function(e) { e.stopPropagation(); toggleTocModal(true); });
 
-            // 데이터 초기화 및 렌더링 실행
             initArticles();
             renderArticlesGrid();
             renderTocModalList();
