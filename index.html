@@ -82,15 +82,12 @@
         <!-- Main Body Area -->
         <main class="flex-1 relative overflow-hidden bg-slate-100 h-full">
 
-            <!-- 1. HUB INDEX VIEW (마감 복구됨) -->
+            <!-- 1. HUB INDEX VIEW -->
             <div id="hub-view" class="h-full overflow-y-auto custom-scroll scrollable-area p-4 sm:p-8 space-y-8 font-noto-sans text-base-force lh-normal">
                 
-                <!-- 메인 타이틀 배너 영역 (이미지 꽉참 & 딤 처리) -->
+                <!-- 메인 타이틀 배너 영역 -->
                 <div class="relative w-full rounded-2xl text-white p-6 sm:p-10 shadow-lg overflow-hidden group min-h-[260px] flex flex-col justify-end bg-cover bg-center" style="background-image: url('./images/a1_1.webp');">
-                    <!-- 어두운 오버레이 -->
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/20 pointer-events-none"></div>
-
-                    <!-- 텍스트 콘텐츠 -->
                     <div class="relative z-10 space-y-3 max-w-2xl">
                         <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/40 backdrop-blur-md text-emerald-200 text-xs font-bold rounded-full border border-emerald-400/30">
                             <span>VOL. 142</span>
@@ -155,9 +152,7 @@
                     <h3 class="font-extrabold text-slate-800 text-base">전체 목차</h3>
                     <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-2 cursor-pointer font-bold">✕</button>
                 </div>
-                <div id="toc-list-container" class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll scrollable-area">
-                    <!-- 자바스크립트로 동적 생성됩니다 -->
-                </div>
+                <div id="toc-list-container" class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll scrollable-area"></div>
             </div>
         </div>
 
@@ -199,9 +194,18 @@
                 <button onclick="toggleSettingsModal(false)" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition shadow-md cursor-pointer">확인</button>
             </div>
         </div>
+
+        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 (Imbere muri body) -->
+        <div id="image-modal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4" onclick="closeImageModal()">
+            <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-2 z-50">✕</button>
+            <div class="relative max-w-5xl max-h-[90vh] flex items-center justify-center" onclick="event.stopPropagation()">
+                <img id="modal-image-view" src="" alt="확대 이미지" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
+            </div>
+        </div>
+
     </div>
 
-    <!-- 외부 기사 데이터 파일들 순서대로 불러오기 (data1 ~ data10) -->
+    <!-- 외부 기사 데이터 파일들 -->
     <script src="./data1.js"></script>
     <script src="./data2.js"></script>
     <script src="./data3.js"></script>
@@ -215,7 +219,6 @@
 
     <!-- 뷰어 작동 로직 스크립트 -->
     <script>
-        // 개별 기사 변수들을 하나의 배열로 결합 (총 10개)
         var articles = [
             typeof article1 !== 'undefined' ? article1 : null,
             typeof article2 !== 'undefined' ? article2 : null,
@@ -234,7 +237,6 @@
         var currentSize = 'text-base-force';
         var currentLH = 'lh-normal';
 
-        // 메인 화면에 10개의 분리된 카드 그리기
         function renderArticlesGrid() {
             var gridContainer = document.getElementById('articles-grid');
             if (!gridContainer) return;
@@ -263,7 +265,6 @@
             gridContainer.innerHTML = htmlContent;
         }
 
-        // 전체 목차 모달 리스트 동적 생성
         function renderTocModalList() {
             var tocContainer = document.getElementById('toc-list-container');
             if (!tocContainer) return;
@@ -384,6 +385,25 @@
             });
         }
 
+        // 이미지 확대 모달 로직
+        function openImageModal(imgSrc) {
+            var modal = document.getElementById('image-modal');
+            var modalImg = document.getElementById('modal-image-view');
+            if (modal && modalImg) {
+                modalImg.src = imgSrc;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeImageModal() {
+            var modal = document.getElementById('image-modal');
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var btnSettings = document.getElementById('btn-open-settings');
             var btnToc = document.getElementById('btn-open-toc');
@@ -391,44 +411,15 @@
             if (btnSettings) btnSettings.addEventListener('click', function(e) { e.stopPropagation(); toggleSettingsModal(true); });
             if (btnToc) btnToc.addEventListener('click', function(e) { e.stopPropagation(); toggleTocModal(true); });
 
-            // 10개 카드 그리드 및 목차 렌더링 실행
             renderArticlesGrid();
             renderTocModalList();
 
             document.body.addEventListener('touchmove', function(e) {
-                if (!e.target.closest('.scrollable-area')) {
+                if (!e.target.closest('.scrollable-area') && !e.target.closest('#image-modal')) {
                     e.preventDefault();
                 }
             }, { passive: false });
         });
-
-        // 이미지 클릭 시 전체 화면 팝업 열기
-function openImageModal(imgSrc) {
-    var modal = document.getElementById('image-modal');
-    var modalImg = document.getElementById('modal-image-view');
-    if (modal && modalImg) {
-        modalImg.src = imgSrc;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-}
-
-// 팝업 닫기
-function closeImageModal() {
-    var modal = document.getElementById('image-modal');
-    if (modal) {
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-    }
-}
     </script>
-
-    <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 -->
-<div id="image-modal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 no-drag-bar" onclick="closeImageModal()">
-    <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-2 z-50">✕</button>
-    <div class="relative max-w-5xl max-h-[90vh] flex items-center justify-center" onclick="event.stopPropagation()">
-        <img id="modal-image-view" src="" alt="확대 이미지" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
-    </div>
-</div>
 </body>
 </html>
