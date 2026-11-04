@@ -195,18 +195,17 @@
             </div>
         </div>
 
-        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 (배경 클릭 닫기 & 오직 이미지만 개별 확대) -->
+        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 (우측 여백 수정 및 핀치 줌 / 드래그 이동 지원) -->
         <div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-4 overflow-hidden" onclick="closeImageModal()">
             <!-- 우측 상단 닫기 버튼 -->
             <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-3 z-50 bg-black/40 rounded-full w-12 h-12 flex items-center justify-center">✕</button>
             
-            <!-- 이미지 영역 (배경은 고정되고 내부 이미지만 핀치 줌 / 클릭 확대 적용) -->
-            <div class="relative w-full h-full flex items-center justify-center pointer-events-none">
+            <!-- 이미지 영역 (두 손가락 핀치 줌 및 드래그 이동 가능) -->
+            <div class="relative w-full h-full flex items-center justify-center overflow-auto" onclick="event.stopPropagation()">
                 <img id="modal-image-view" src="" alt="확대 이미지" 
-                     class="max-w-full max-h-full object-contain cursor-zoom-in transition-transform duration-200 pointer-events-auto"
-                     style="user-select: none;"
-                     draggable="false"
-                     onclick="toggleZoom(event)">
+                     class="max-w-full max-h-full object-contain cursor-grab active:cursor-grabbing transition-transform duration-75"
+                     style="touch-action: pinch-zoom; user-select: none;"
+                     draggable="false">
             </div>
         </div>
 
@@ -231,7 +230,11 @@
         var currentFont = 'font-noto-sans';
         var currentSize = 'text-base-force';
         var currentLH = 'lh-normal';
-        var isZoomed = false;
+
+        // 드래그(패닝) 변수
+        var isDragging = false;
+        var startX, startY, translateX = 0, translateY = 0;
+        var currentScale = 1;
 
         function initArticles() {
             articles = [
@@ -401,15 +404,16 @@
             });
         }
 
-        // 이미지 모달 열기 및 초기화
+        // 이미지 모달 열기 및 리셋
         function openImageModal(imgSrc) {
             var modal = document.getElementById('image-modal');
             var modalImg = document.getElementById('modal-image-view');
             if (modal && modalImg) {
                 modalImg.src = imgSrc;
-                isZoomed = false;
-                modalImg.style.transform = 'scale(1)';
-                modalImg.style.cursor = 'zoom-in';
+                translateX = 0;
+                translateY = 0;
+                currentScale = 1;
+                modalImg.style.transform = 'translate(0px, 0px) scale(1)';
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             }
@@ -424,22 +428,6 @@
             }
         }
 
-        // 이미지 클릭 시 창은 고정되고 이미지만 확대/축소 토글
-        function toggleZoom(e) {
-            e.stopPropagation(); // 배경으로 클릭 이벤트가 퍼지는 것을 막아 닫히는 현상 방지
-            var modalImg = document.getElementById('modal-image-view');
-            if (!modalImg) return;
-
-            isZoomed = !isZoomed;
-            if (isZoomed) {
-                modalImg.style.transform = 'scale(2.2)';
-                modalImg.style.cursor = 'zoom-out';
-            } else {
-                modalImg.style.transform = 'scale(1)';
-                modalImg.style.cursor = 'zoom-in';
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             var btnSettings = document.getElementById('btn-open-settings');
             var btnToc = document.getElementById('btn-open-toc');
@@ -450,6 +438,28 @@
             initArticles();
             renderArticlesGrid();
             renderTocModalList();
+
+            // 확대된 이미지 마우스/터치 드래그 이동(패닝) 구현
+            var modalImg = document.getElementById('modal-image-view');
+            if (modalImg) {
+                modalImg.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    e.preventDefault();
+                });
+
+                window.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    modalImg.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                });
+
+                window.addEventListener('mouseup', function() {
+                    isDragging = false;
+                });
+            }
 
             document.body.addEventListener('touchmove', function(e) {
                 if (!e.target.closest('.scrollable-area') && !e.target.closest('#image-modal')) {
