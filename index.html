@@ -86,7 +86,7 @@
             <div id="hub-view" class="h-full overflow-y-auto custom-scroll scrollable-area p-4 sm:p-8 space-y-8 font-noto-sans text-base-force lh-normal">
                 <div class="relative w-full rounded-2xl bg-gradient-to-br from-emerald-800 via-teal-700 to-slate-900 text-white p-6 sm:p-10 shadow-lg overflow-hidden group">
                     <div class="relative z-10 space-y-3 max-w-2xl">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/30 backdrop-blur-md text-emerald-200 text-xs font-bold rounded-full border border-emerald-400/30">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/35 backdrop-blur-md text-emerald-200 text-xs font-bold rounded-full border border-emerald-400/30">
                             <span>VOL. 142</span>
                             <span>•</span>
                             <span>2026 OCTOBER</span>
@@ -95,7 +95,7 @@
                             푸른 바다와 가을빛,<br><span class="text-emerald-300">거제를 담다</span>
                         </h1>
                         <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-light">
-                            10월의 선선한 바람과 함께 찾아온 거제 시정소식지 함께거제. 섬꽃축제의 향연부터 금속 공예가의 예술 세계, 알찬 생활정보와 이벤트까지 카드 썸네일을 눌러 확인해보세요!
+                            10월의 선선한 바람과 함께 찾아온 거제 시정소식지 함께거제. 섬꽃축제의 향연부터 알찬 소식들까지 카드를 눌러 확인해보세요!
                         </p>
                     </div>
                 </div>
@@ -105,46 +105,12 @@
                         <span class="w-2.5 h-6 bg-emerald-600 rounded-full"></span>
                         10월호 주요 목차 & 콘텐츠
                     </h2>
-                    <span class="text-xs font-semibold text-slate-500">총 2개 코너</span>
+                    <span id="total-articles-count" class="text-xs font-semibold text-slate-500">총 10개 코너</span>
                 </div>
 
-                <!-- Grid Thumbnails -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-16">
-                    <div onclick="openArticle(0)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
-<!-- 기사 카드 전체를 감싸는 하나의 박스 (클릭 가능 영역) -->
-<article class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100 cursor-pointer group">
-
-    <!-- 1. 상단 썸네일 이미지 영역 -->
-    <div class="relative h-44 w-full overflow-hidden">
-        <img src="./images/a1_1.webp" alt="기사 썸네일" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-        <!-- COVER STORY 태그 -->
-        <span class="absolute top-3 left-3 z-10 bg-black/50 text-emerald-300 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider">
-            COVER STORY
-        </span>
-    </div>
-
-    <!-- 2. 하단 텍스트 영역 (기사 읽기 버튼 및 구분선 삭제됨) -->
-    <div class="p-5 space-y-3">
-        <h3 class="text-xl font-bold text-slate-800 leading-snug">
-            10월 거제 시정 메시지
-        </h3>
-        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">
-            시민 여러분께 전하는 10월의 인사말과 거제의 가을 소식들.
-        </p>
-    </div>
-
-</article>
-
-                    <div onclick="openArticle(1)" class="card-hover-effect bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
-                        <div class="relative h-44 bg-slate-800 flex items-center justify-center overflow-hidden">
-                            <span class="absolute top-3 left-3 bg-slate-900/80 text-amber-300 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide">01 INTERVIEW</span>
-                            <div class="text-center p-4"><span class="text-3xl block mb-1">✨</span><span class="text-amber-100 font-extrabold text-base">금속과 빛의 반전 예술</span></div>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
-                            <div><h3 class="font-bold text-slate-900 text-base">낮과 밤, 반전의 아름다움 - 이숙 작가</h3><p class="text-xs text-slate-500 mt-1.5 line-clamp-2">차가운 금속 소재 위 빛을 불어넣는 공예 장인 이야기.</p></div>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600"><span>기사 읽기</span><span>▶</span></div>
-                        </div>
-                    </div>
+                <!-- Grid Thumbnails (10개 카드가 각각 완벽히 분리되어 렌더링되는 영역) -->
+                <div id="articles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-16">
+                    <!-- 자바스크립트로 동적 생성됩니다 -->
                 </div>
             </div>
 
@@ -167,7 +133,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         <span>이전 코너</span>
                     </button>
-                    <span id="article-progress-txt" class="font-extrabold text-slate-500 text-xs tracking-wider">1 / 2</span>
+                    <span id="article-progress-txt" class="font-extrabold text-slate-500 text-xs tracking-wider">1 / 10</span>
                     <button id="next-art-btn" onclick="navArticle(1)" class="flex items-center gap-2 font-bold text-slate-700 hover:text-emerald-600 active:text-emerald-700 transition disabled:opacity-30 cursor-pointer py-2 px-3 bg-slate-100 rounded-lg">
                         <span>다음 코너</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -183,12 +149,8 @@
                     <h3 class="font-extrabold text-slate-800 text-base">전체 목차 메뉴</h3>
                     <button onclick="toggleTocModal(false)" class="text-slate-400 hover:text-slate-600 p-2 cursor-pointer font-bold">✕</button>
                 </div>
-                <div class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll scrollable-area">
-                    <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 active:bg-emerald-100 transition flex justify-between items-center group bg-slate-50 mb-2 cursor-pointer">
-                        <span class="font-bold text-emerald-700">🏠 메인 목차 홈으로</span>
-                    </button>
-                    <button onclick="openArticle(0); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 active:bg-slate-200 transition flex justify-between items-center group cursor-pointer"><span class="font-bold text-slate-800 group-hover:text-emerald-700">00. COVER STORY: 거제 시정 메세지</span></button>
-                    <button onclick="openArticle(1); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 active:bg-slate-200 transition flex justify-between items-center group cursor-pointer"><span class="font-bold text-slate-800 group-hover:text-emerald-700">01. INTERVIEW: 금속공예 이숙 작가</span></button>
+                <div id="toc-list-container" class="p-4 overflow-y-auto space-y-2 text-sm custom-scroll scrollable-area">
+                    <!-- 자바스크립트로 동적 생성됩니다 -->
                 </div>
             </div>
         </div>
@@ -233,19 +195,88 @@
         </div>
     </div>
 
-    <!-- 외부 기사 데이터 파일들 순서대로 불러오기 -->
+    <!-- 외부 기사 데이터 파일들 순서대로 불러오기 (data1 ~ data10) -->
     <script src="./data1.js"></script>
     <script src="./data2.js"></script>
+    <script src="./data3.js"></script>
+    <script src="./data4.js"></script>
+    <script src="./data5.js"></script>
+    <script src="./data6.js"></script>
+    <script src="./data7.js"></script>
+    <script src="./data8.js"></script>
+    <script src="./data9.js"></script>
+    <script src="./data10.js"></script>
 
     <!-- 뷰어 작동 로직 스크립트 -->
     <script>
-        // 개별 기사 변수들을 하나의 배열로 결합
-        var articles = [article1, article2];
+        // 개별 기사 변수들을 하나의 배열로 결합 (총 10개)
+        var articles = [
+            typeof article1 !== 'undefined' ? article1 : null,
+            typeof article2 !== 'undefined' ? article2 : null,
+            typeof article3 !== 'undefined' ? article3 : null,
+            typeof article4 !== 'undefined' ? article4 : null,
+            typeof article5 !== 'undefined' ? article5 : null,
+            typeof article6 !== 'undefined' ? article6 : null,
+            typeof article7 !== 'undefined' ? article7 : null,
+            typeof article8 !== 'undefined' ? article8 : null,
+            typeof article9 !== 'undefined' ? article9 : null,
+            typeof article10 !== 'undefined' ? article10 : null
+        ].filter(Boolean);
 
         var currentArticleIndex = 0;
         var currentFont = 'font-noto-sans';
         var currentSize = 'text-base-force';
         var currentLH = 'lh-normal';
+
+        // 메인 화면에 10개의 분리된 카드 그리기
+        function renderArticlesGrid() {
+            var gridContainer = document.getElementById('articles-grid');
+            if (!gridContainer) return;
+
+            var htmlContent = '';
+            articles.forEach(function(art, index) {
+                htmlContent += `
+                    <article onclick="openArticle(${index})" class="card-hover-effect bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer flex flex-col group">
+                        <div class="relative h-44 w-full overflow-hidden">
+                            <img src="${art.thumbnail || './images/a1_1.webp'}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 z-10 bg-black/50 text-emerald-300 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider">
+                                ${art.category}
+                            </span>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-2 bg-white">
+                            <h3 class="font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-700 transition">
+                                ${art.title}
+                            </h3>
+                            <p class="text-xs text-slate-500 leading-relaxed line-clamp-2">
+                                ${art.summary || art.subtitle}
+                            </p>
+                        </div>
+                    </article>
+                `;
+            });
+            gridContainer.innerHTML = htmlContent;
+        }
+
+        // 전체 목차 모달 리스트 동적 생성
+        function renderTocModalList() {
+            var tocContainer = document.getElementById('toc-list-container');
+            if (!tocContainer) return;
+
+            var htmlContent = `
+                <button onclick="showHubView(); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 active:bg-emerald-100 transition flex justify-between items-center group bg-slate-50 mb-2 cursor-pointer">
+                    <span class="font-bold text-emerald-700">🏠 메인 목차 홈으로</span>
+                </button>
+            `;
+            articles.forEach(function(art, index) {
+                var numStr = index < 10 ? '0' + index : index;
+                htmlContent += `
+                    <button onclick="openArticle(${index}); toggleTocModal(false);" class="w-full text-left p-3 rounded-xl hover:bg-slate-100 active:bg-slate-200 transition flex justify-between items-center group cursor-pointer">
+                        <span class="font-bold text-slate-800 group-hover:text-emerald-700">${numStr}. ${art.category}: ${art.title}</span>
+                    </button>
+                `;
+            });
+            tocContainer.innerHTML = htmlContent;
+        }
 
         function showHubView() {
             document.getElementById('hub-view').classList.remove('hidden');
@@ -353,6 +384,10 @@
 
             if (btnSettings) btnSettings.addEventListener('click', function(e) { e.stopPropagation(); toggleSettingsModal(true); });
             if (btnToc) btnToc.addEventListener('click', function(e) { e.stopPropagation(); toggleTocModal(true); });
+
+            // 10개 카드 그리드 및 목차 렌더링 실행
+            renderArticlesGrid();
+            renderTocModalList();
 
             document.body.addEventListener('touchmove', function(e) {
                 if (!e.target.closest('.scrollable-area')) {
