@@ -29,7 +29,7 @@
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         
         .card-hover-effect { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card-hover-effect:active { transform: scale(0.98); }
+        .card-hover-effect:active { transition: transform 0.2s ease, box-shadow 0.2s ease; transform: scale(0.98); }
         
         .lh-tight, .lh-tight * { line-height: 1.4 !important; }
         .lh-normal, .lh-normal * { line-height: 1.75 !important; }
@@ -195,11 +195,22 @@
             </div>
         </div>
 
-        <!-- 네이버 블로그 스타일 이미지 확대 팝업 모달 (Imbere muri body) -->
-        <div id="image-modal" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4" onclick="closeImageModal()">
-            <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-2 z-50">✕</button>
-            <div class="relative max-w-5xl max-h-[90vh] flex items-center justify-center" onclick="event.stopPropagation()">
-                <img id="modal-image-view" src="" alt="확대 이미지" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
+        <!-- 네이버 블로그 스타일 이미지 확대/축소 팝업 모달 (라운드 제거 & 줌 기능 적용) -->
+        <div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden flex-col items-center justify-center p-2 no-drag-bar" onclick="closeImageModal()">
+            <!-- 상단 컨트롤 버튼 그룹 -->
+            <div class="absolute top-4 right-4 flex items-center gap-2 z-50" onclick="event.stopPropagation()">
+                <button onclick="zoomImage(0.2)" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full font-bold text-lg flex items-center justify-center cursor-pointer transition">+</button>
+                <button onclick="zoomImage(-0.2)" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full font-bold text-lg flex items-center justify-center cursor-pointer transition">-</button>
+                <button onclick="resetZoom()" class="bg-white/20 hover:bg-white/30 text-white px-3 h-10 rounded-full font-bold text-xs flex items-center justify-center cursor-pointer transition">원래대로</button>
+                <button onclick="closeImageModal()" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full font-bold text-xl flex items-center justify-center cursor-pointer transition ml-2">✕</button>
+            </div>
+            
+            <!-- 이미지 영역 (라운드 없이 사각형 유지, 마우스 휠 및 드래그 줌 지원) -->
+            <div class="relative w-full h-full flex items-center justify-center overflow-hidden" onclick="event.stopPropagation()">
+                <img id="modal-image-view" src="" alt="확대 이미지" 
+                     class="max-w-none object-contain transition-transform duration-100 cursor-grab active:cursor-grabbing"
+                     style="transform: scale(1); transform-origin: center center;"
+                     draggable="false">
             </div>
         </div>
 
@@ -236,6 +247,11 @@
         var currentFont = 'font-noto-sans';
         var currentSize = 'text-base-force';
         var currentLH = 'lh-normal';
+
+        // 줌 관련 변수
+        var currentScale = 1;
+        var isDragging = false;
+        var startX, startY, translateX = 0, translateY = 0;
 
         function renderArticlesGrid() {
             var gridContainer = document.getElementById('articles-grid');
@@ -385,12 +401,13 @@
             });
         }
 
-        // 이미지 확대 모달 로직
+        // 이미지 확대/축소 및 모달 제어 로직
         function openImageModal(imgSrc) {
             var modal = document.getElementById('image-modal');
             var modalImg = document.getElementById('modal-image-view');
             if (modal && modalImg) {
                 modalImg.src = imgSrc;
+                resetZoom();
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             }
@@ -404,6 +421,28 @@
             }
         }
 
+        function zoomImage(amount) {
+            currentScale += amount;
+            if (currentScale < 1) currentScale = 1; // 최소 크기 제한
+            if (currentScale > 5) currentScale = 5; // 최대 크기 제한
+            updateImageTransform();
+        }
+
+        function resetZoom() {
+            currentScale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateImageTransform();
+        }
+
+        function updateImageTransform() {
+            var modalImg = document.getElementById('modal-image-view');
+            if (modalImg) {
+                modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+            }
+        }
+
+        // 마우스 휠로 확대/축소 지원
         document.addEventListener('DOMContentLoaded', function() {
             var btnSettings = document.getElementById('btn-open-settings');
             var btnToc = document.getElementById('btn-open-toc');
@@ -413,6 +452,42 @@
 
             renderArticlesGrid();
             renderTocModalList();
+
+            var modalImg = document.getElementById('modal-image-view');
+            var modalContainer = document.getElementById('image-modal');
+
+            if (modalContainer) {
+                // 마우스 휠 줌 이벤트
+                modalContainer.addEventListener('wheel', function(e) {
+                    e.preventDefault();
+                    if (e.deltaY < 0) {
+                        zoomImage(0.15);
+                    } else {
+                        zoomImage(-0.15);
+                    }
+                }, { passive: false });
+
+                // 마우스 드래그로 확대된 이미지 이동 (Pan 기능)
+                modalImg.addEventListener('mousedown', function(e) {
+                    if (currentScale > 1) {
+                        isDragging = true;
+                        startX = e.clientX - translateX;
+                        startY = e.clientY - translateY;
+                        e.preventDefault();
+                    }
+                });
+
+                window.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    updateImageTransform();
+                });
+
+                window.addEventListener('mouseup', function() {
+                    isDragging = false;
+                });
+            }
 
             document.body.addEventListener('touchmove', function(e) {
                 if (!e.target.closest('.scrollable-area') && !e.target.closest('#image-modal')) {
