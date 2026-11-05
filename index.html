@@ -77,8 +77,10 @@
         <!-- Top Navigation Header -->
         <header class="h-14 bg-white/95 backdrop-blur border-b border-slate-200 px-4 flex items-center justify-between text-xs sm:text-sm font-medium z-30 flex-shrink-0 shadow-sm relative no-drag-bar">
             <div class="flex items-center">
-                <button id="btn-open-settings" class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-100 active:bg-slate-200 text-slate-700 transition cursor-pointer border border-slate-300">
+                <!-- 모바일에서는 'Aa'만, 웹(sm 이상)에서는 'Aa 독서환경설정'이 함께 노출되도록 수정 -->
+                <button id="btn-open-settings" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg hover:bg-slate-100 active:bg-slate-200 text-slate-700 transition cursor-pointer border border-slate-300">
                     <span class="font-extrabold text-sm tracking-tight text-emerald-600">Aa</span>
+                    <span class="hidden sm:inline font-bold">독서환경설정</span>
                 </button>
             </div>
 
@@ -87,7 +89,11 @@
                 <span>함께거제</span>
             </div>
 
-            <div class="flex items-center">
+            <div class="flex items-center gap-3">
+                <!-- 상단 우측 로고 -->
+                <div onclick="showHubView()" class="cursor-pointer flex items-center">
+                    <img src="./images/logo.svg" alt="함께거제 로고" class="h-6 sm:h-7 w-auto object-contain">
+                </div>
                 <button id="btn-open-toc" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 active:bg-slate-200 text-slate-700 transition cursor-pointer">
                     <span class="hidden sm:inline font-bold">전체 목차</span>
                     <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -101,7 +107,7 @@
             <!-- 1. HUB INDEX VIEW -->
             <div id="hub-view" class="h-full overflow-y-auto custom-scroll scrollable-area p-4 sm:p-8 space-y-8 font-noto-sans text-base-force lh-normal">
                 
-                <!-- 메인 타이틀 배너 영역 (images 폴더 경로 적용) -->
+                <!-- 메인 타이틀 배너 영역 (4:5 비율 / 표지 내부 상단우측 로고 & 하단좌측 글래스 뱃지) -->
                 <div class="relative w-full aspect-[4/5] rounded-2xl text-white shadow-lg overflow-hidden group bg-cover bg-center" style="background-image: url('./images/2609_c.webp');">
                     <!-- 그라데이션 오버레이 -->
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-900/30 pointer-events-none"></div>
