@@ -8,6 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Noto Sans KR & Noto Serif KR -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- 구글 애널리틱스(GA4) 추적 코드 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C6SW9E3NDB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-C6SW9E3NDB');
+    </script>
+
     <style>
         * { -webkit-tap-highlight-color: transparent; }
         html, body {
@@ -67,6 +78,7 @@
                 </button>
             </div>
 
+            <!-- 상단 함께거제 클릭 시 메인페이지 이동 및 스크롤 최상단 이동 -->
             <div onclick="showHubView()" class="absolute left-1/2 -translate-x-1/2 font-black text-slate-900 text-base sm:text-lg tracking-tight cursor-pointer hover:text-emerald-700 active:opacity-70 transition p-2 select-none">
                 <span>함께거제</span>
             </div>
@@ -112,9 +124,15 @@
                 </div>
 
                 <!-- Grid Thumbnails -->
-                <div id="articles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-16">
+                <div id="articles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
                     <!-- 자바스크립트로 동적 생성됩니다 -->
                 </div>
+
+                <!-- 메인페이지 최하단 하단 정보 영역 -->
+                <footer class="pt-6 pb-12 border-t border-slate-200 text-center space-y-2">
+                    <p class="text-xs font-bold text-slate-500">거제시정소식지 함께거제 2026년 10월호</p>
+                    <p class="text-[11px] text-slate-400">본 소식지의 모든 통계는 구글 애널리틱스(GA4)를 통해 안전하게 분석됩니다.</p>
+                </footer>
             </div>
 
             <!-- 2. ARTICLE READER VIEW -->
@@ -195,12 +213,11 @@
             </div>
         </div>
 
-        <!-- 이미지 라이트박스 팝업 모달 (배경 클릭 시 닫기 보완) -->
+        <!-- 이미지 라이트박스 팝업 모달 -->
         <div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-0 overflow-hidden" onclick="closeImageModal()">
             <button onclick="closeImageModal()" class="absolute top-5 right-5 text-white text-3xl font-bold hover:text-slate-300 cursor-pointer p-3 z-50 bg-black/40 rounded-full w-12 h-12 flex items-center justify-center">✕</button>
             
             <div class="relative w-full h-full flex items-center justify-center overflow-hidden p-4">
-                <!-- 이미지 영역: 클릭 시 이벤트 전파를 막되, 드래그 및 핀치 줌은 정상 작동 -->
                 <img id="modal-image-view" src="" alt="확대 이미지" 
                      class="max-w-full max-h-full object-contain cursor-grab active:cursor-grabbing select-none"
                      style="transform: translate(0px, 0px) scale(1); touch-action: none;"
@@ -309,9 +326,14 @@
             tocContainer.innerHTML = htmlContent;
         }
 
+        // 메인 페이지로 이동하면서 스크롤을 맨 위로 올리는 함수
         function showHubView() {
             document.getElementById('hub-view').classList.remove('hidden');
             document.getElementById('article-view').classList.add('hidden');
+            var hubScroll = document.getElementById('hub-view');
+            if (hubScroll) {
+                hubScroll.scrollTop = 0;
+            }
         }
 
         function openArticle(index) {
@@ -458,12 +480,11 @@
             // 핀치 줌 및 패닝(드래그) 이벤트 리스너 설정
             var modalImg = document.getElementById('modal-image-view');
             if (modalImg) {
-                // 마우스 드래그 (PC)
                 modalImg.addEventListener('mousedown', function(e) {
                     isDragging = true;
                     startX = e.clientX - panX;
                     startY = e.clientY - panY;
-                    e.stopPropagation(); // 배경 클릭으로 닫히는 현상 방지
+                    e.stopPropagation();
                     e.preventDefault();
                 });
 
@@ -478,7 +499,6 @@
                     isDragging = false;
                 });
 
-                // 마우스 휠 줌 (PC)
                 modalImg.addEventListener('wheel', function(e) {
                     e.preventDefault();
                     var zoomIntensity = 0.15;
@@ -491,9 +511,8 @@
                     updateTransform(modalImg);
                 }, { passive: false });
 
-                // 터치 이벤트 (모바일: 한 손가락 드래그 패닝 + 두 손가락 핀치 줌)
                 modalImg.addEventListener('touchstart', function(e) {
-                    e.stopPropagation(); // 배경 클릭으로 닫히는 현상 방지
+                    e.stopPropagation();
                     if (e.touches.length === 1) {
                         isDragging = true;
                         startX = e.touches[0].clientX - panX;
